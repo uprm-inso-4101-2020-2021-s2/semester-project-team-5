@@ -1,0 +1,36 @@
+<!-- image ref: https://makdigitaldesign.com/ecommerce/10-tips-to-increase-sales-and-efficiency-of-your-ecommerce-store/ /--->
+<!DOCTYPE html>
+{% load static %}
+<html lang='en'>
+  <head>
+    <meta charset='utf-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+  </head>
+
+  <body>
+      <h1 style='text-align:center;'>TEAM 5 </h1>
+      <h1 style='text-align:center;'>Wall-eCommerce</h1>
+      <div style='font-weight:bold; text-align:center'> {{members}}</div>
+      <p style="text-align:center;">
+      <img src="{% static 'img/ecom_homepagelogo.jpg' %}" class="img-fluid" />
+      </p>
+      <div>
+          <div class='container'>
+          <div class='row'>
+          <div class='col'>
+              <p>{{ content }}</p>
+          </div>
+          </div>
+          </div>
+      </div>
+          {% if request.user.is_authenticated %}
+          <div class='row'>
+          <div class='col'>
+              <h1>PREMIUM</h1>
+              {{premium_content}}
+          </div>
+          </div>
+          {% endif%}
+
+  </body>
+</html>
