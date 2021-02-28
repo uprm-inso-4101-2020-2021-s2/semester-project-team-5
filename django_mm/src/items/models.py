@@ -20,6 +20,7 @@ def upload_image_path(instance, filename):
     return "item/{new_filename}/{f_filename}".format(new_filename=new_filename, f_filename=f_filename)
 
 
+
 class Item(models.Model):
     name             = models.CharField(max_length=50)
     description      = models.TextField()
