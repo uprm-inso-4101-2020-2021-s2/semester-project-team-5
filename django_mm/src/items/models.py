@@ -20,14 +20,12 @@ def upload_image_path(instance, filename):
     return "item/{new_filename}/{f_filename}".format(new_filename=new_filename, f_filename=f_filename)
 
 
-
 class Item(models.Model):
-    name             = models.CharField(max_length=50)
-    description      = models.TextField()
-    price            = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
+    name = models.CharField(max_length=50)
+    description = models.TextField()
+    price = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
     # image pillow needed to be install and it becomes a requirement
-    image            = models.ImageField(upload_to=upload_image_path, null=True, blank=True)
-
+    image = models.ImageField(upload_to=upload_image_path, null=True, blank=True)
 
     def __str__(self):
         return self.name
