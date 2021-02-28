@@ -25,7 +25,7 @@ class Item(models.Model):
     description      = models.TextField()
     price            = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
     # image pillow needed to be install and it becomes a requirement
-    image            = models.ImageField(upload_to=upload_image_path, null=True, blank=False)
+    image            = models.ImageField(upload_to=upload_image_path, null=True, blank=True)
 
 
     def __str__(self):
