@@ -1,12 +1,12 @@
 from django.contrib.auth.validators import UnicodeUsernameValidator
 from django.db import models
-from django.contrib.auth.models import AbstractBaseUser as DjangoUser, UserManager
+from django.contrib.auth.models import AbstractBaseUser as DjangoUser, UserManager, PermissionsMixin
 from django.utils.translation import gettext_lazy as _
 # Create your models here.
 from ecommerce import settings
 
 
-class User(DjangoUser):
+class User(DjangoUser, PermissionsMixin):
     username_validator = UnicodeUsernameValidator()
 
     username = models.CharField(_('username'), max_length=150, unique=True,
@@ -22,6 +22,7 @@ class User(DjangoUser):
     phone = models.CharField(verbose_name='Phone Number', max_length=10, blank=True, null=True)
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
 
     objects = UserManager()
 
@@ -50,8 +51,8 @@ class User(DjangoUser):
         verbose_name = _('user')
         verbose_name_plural = _('users')
 
-    def __str__(self):
-        return self.get_full_name()
+    # def __str__(self):
+    #     return self.get_full_name()
 
 
 class Location(models.Model):

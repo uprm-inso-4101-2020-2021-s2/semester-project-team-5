@@ -37,6 +37,6 @@ class ItemDetailView(DetailView):
 def details(request, item_id=None):
     selected_item = get_object_or_404(Item, pk=item_id)
     context = {
-        'object_list': selected_item
+        'item': selected_item
     }
     return render(request, "items/item_detail.html", context)

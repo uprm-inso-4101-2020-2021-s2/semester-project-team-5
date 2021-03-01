@@ -24,11 +24,17 @@
     <autoscroll-to-editor value="false" />
     <autoscroll-from-editor value="true" />
     <show-object-properties value="true" />
-    <loaded-nodes />
+    <loaded-nodes>
+      <connection connection-id="409fb54c-b53a-4996-9065-a44eb7477575">
+        <schema name="information_schema" object-types="constraint, index, dataset trigger, view, column, table, sequence, function" />
+        <schema name="pg_catalog" object-types="view, table, function" />
+        <schema name="public" object-types="constraint, index, dataset trigger, view, column, table, sequence, function" />
+      </connection>
+    </loaded-nodes>
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
     <connection id="409fb54c-b53a-4996-9065-a44eb7477575">
-      <console name="EcommerceDB" type="STANDARD" schema="information_schema" session="Main" />
+      <console name="EcommerceDB" type="STANDARD" schema="public" session="Main" />
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
@@ -36,6 +42,16 @@
   </component>
   <component name="DBNavigator.Project.DatabaseSessionManager">
     <connection id="409fb54c-b53a-4996-9065-a44eb7477575" />
+  </component>
+  <component name="DBNavigator.Project.DatasetFilterManager">
+    <filter-actions connection-id="409fb54c-b53a-4996-9065-a44eb7477575" dataset="information_schema.sql_sizing" active-filter-id="" />
+    <filter-actions connection-id="409fb54c-b53a-4996-9065-a44eb7477575" dataset="public.users_user" active-filter-id="" />
+    <filter-actions connection-id="409fb54c-b53a-4996-9065-a44eb7477575" dataset="information_schema.sql_features" active-filter-id="0be6f9c6-fe90-49f2-a060-40a9e38f4b04">
+      <filter id="0be6f9c6-fe90-49f2-a060-40a9e38f4b04" name="Filter 1" temporary="false" custom-name="false" type="basic" join-type="AND">
+        <condition column="comments" operator="=" value="" active="true" />
+      </filter>
+    </filter-actions>
+    <filter-actions connection-id="409fb54c-b53a-4996-9065-a44eb7477575" dataset="information_schema.sql_implementation_info" active-filter-id="" />
   </component>
   <component name="DBNavigator.Project.EditorStateManager">
     <last-used-providers />
@@ -76,13 +92,13 @@
           <url-type value="DATABASE" />
           <host value="localhost" />
           <port value="5432" />
-          <database value="postgres" />
+          <database value="ecommerce" />
           <type value="USER_PASSWORD" />
           <user value="ecommerce_user" />
           <deprecated-pwd value="ZWN1c2VyMTIz" />
         </database>
         <properties>
-          <auto-commit value="false" />
+          <auto-commit value="true" />
         </properties>
         <ssh-settings>
           <active value="false" />
@@ -199,7 +215,7 @@
       <lookup-filters>
         <lookup-objects>
           <object-type name="SCHEMA" enabled="true" />
-          <object-type name="USER" enabled="false" />
+          <object-type name="USER" enabled="true" />
           <object-type name="ROLE" enabled="false" />
           <object-type name="PRIVILEGE" enabled="false" />
           <object-type name="CHARSET" enabled="false" />
