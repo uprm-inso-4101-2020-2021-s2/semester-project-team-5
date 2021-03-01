@@ -8,8 +8,9 @@ from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 
 from .models import User
 
+
 class UserAdmin(admin.ModelAdmin):
-    model=User
+    model = User
     list_display = ['username']
 
     # def changelist_view(self, request, extra_context=None):
