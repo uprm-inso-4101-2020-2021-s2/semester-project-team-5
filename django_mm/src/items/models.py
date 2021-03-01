@@ -1,6 +1,8 @@
 import random
 import os
 from django.db import models
+from ecommerce import settings
+
 
 # Writing in the fields that are going to be on the database
 
@@ -21,12 +23,20 @@ def upload_image_path(instance, filename):
 
 
 class Item(models.Model):
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='items', null=True)
     name = models.CharField(max_length=50)
     description = models.TextField()
-    price = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
-    # image pillow needed to be install and it becomes a requirement
-    image = models.ImageField(upload_to=upload_image_path, null=True, blank=True)
+    price = models.DecimalField(max_digits=10, decimal_places=2, null=False)
+    quantity = models.IntegerField(default=1, null=False)
+    Category = models.CharField(max_length=20, null=False)
 
     def __str__(self):
         return self.name
+
+
+class Image(models.Model):
+    item = models.ForeignKey(Item, models.CASCADE, related_name='images', null=False)
+    # image pillow needed to be install and it becomes a requirement
+    source = models.ImageField(upload_to=upload_image_path, null=False, blank=False)
+
 

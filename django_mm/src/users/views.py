@@ -2,8 +2,9 @@ from django.shortcuts import render
 # Create your views here.
 from django.shortcuts import render, redirect
 from .forms import LoginForm, RegisterForm
-from django.contrib.auth import authenticate, login
-from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login, get_user_model
+
+User = get_user_model()
 
 
 def login_page(request, backend=None):
@@ -44,6 +45,6 @@ def register_page(request):
         username = form.cleaned_data.get('username')
         email = form.cleaned_data.get('email')
         password = form.cleaned_data.get('password')
-        new_user = User.objects.create_user(username, email, password)
+        new_user = User.objects.create(username=username, email=email, password=password)
         print(new_user)
     return render(request, "authentication/register.html", context)
