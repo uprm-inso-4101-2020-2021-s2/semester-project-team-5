@@ -30,7 +30,7 @@ class Item(models.Model):
     description = models.TextField()
     price = models.DecimalField(max_digits=10, decimal_places=2, null=False)
     quantity = models.IntegerField(default=1, null=False)
-    Category = models.CharField(max_length=20, null=False)
+    Category = models.CharField(max_length=20, null=False, default='')
 
     def __str__(self):
         return self.name

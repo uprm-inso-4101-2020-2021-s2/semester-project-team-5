@@ -9,8 +9,8 @@ from ecommerce import settings
 class User(DjangoUser, PermissionsMixin):
     username_validator = UnicodeUsernameValidator()
 
-    username = models.CharField( _('username'), max_length=150, unique=True,
-        help_text=_('Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.'),
+    username = models.CharField(_('username'), max_length=150, unique=True,
+        help_text =_('Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.'),
         validators=[username_validator],
         error_messages={
             'unique': _("A user with that username already exists."),
@@ -30,6 +30,9 @@ class User(DjangoUser, PermissionsMixin):
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = ['email']
 
+
+
+
     def clean(self):
         super().clean()
         self.email = self.__class__.objects.normalize_email(self.email)
@@ -37,6 +40,12 @@ class User(DjangoUser, PermissionsMixin):
     def get_full_name(self):
         full_name = '%s %s' % (self.first_name, self.last_name)
         return full_name.strip()
+
+    def has_perm(self, perm, obj=None):
+        return self.is_superuser
+
+    def has_module_perms(self, app_label):
+        return self.is_superuser
 
     class Meta:
         verbose_name = _('user')
