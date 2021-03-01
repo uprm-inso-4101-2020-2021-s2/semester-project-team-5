@@ -1,7 +1,7 @@
 import random
 import os
+
 from django.db import models
-from ecommerce import settings
 
 
 # Writing in the fields that are going to be on the database
@@ -9,6 +9,8 @@ from ecommerce import settings
 
 # 2 functions to change the name of the file
 # This is made for no error in image loading
+from ecommerce import settings
+
 def get_ext_from_file(filepath):
     base_name = os.path.basename(filepath)
     name, ext = os.path.splitext(base_name)

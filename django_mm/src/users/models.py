@@ -1,4 +1,3 @@
-from django.conf import settings
 from django.contrib.auth.validators import UnicodeUsernameValidator
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser as DjangoUser, UserManager, PermissionsMixin
@@ -43,8 +42,8 @@ class User(DjangoUser, PermissionsMixin):
         verbose_name = _('user')
         verbose_name_plural = _('users')
 
-    def __str__(self):
-        return self.get_full_name()
+    # def __str__(self):
+    #     return self.get_full_name()
 
 
 class Location(models.Model):

@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html>
-{{object.name}}</br>
-{{object.description}}</br>
-{{object.price}}</br></br></br>
- <img src='{{object.image.url}}' style="width:300px;height:300px;">
+<body>
+<p>{{item.name}}<br></p>
+<p>{{item.description}}<br></p>
+<p>{{item.price}}<br></p>
+ <img src='{{item.images.first.source.url}}' style="width:300px;height:300px;">
+</body>
 </html>
 
