@@ -14,22 +14,18 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.conf.urls import url
+from django.urls import include, path
 from django.conf import settings            # eliminate on app deployment
 from django.conf.urls.static import static  # eliminate on app deployment
-from items.views import ItemListView, item_list_view, ItemDetailView, item_detail_view
-from users.views import home_page, login_page, register_page
+from . import views
 
+app_name = 'ecommerce'
 
 urlpatterns = [
-    url(r'^$', home_page),
-    url(r'login/$', login_page),
-    url(r'register/$', register_page),
-    url(r'admin/', admin.site.urls),
-    url(r'items/$', ItemListView.as_view()),
-    url(r'items_t/$', item_list_view),
-    url(r'items/(?P<pk>\d+)/$', ItemDetailView.as_view()),
-    url(r'items_t/(?P<pk>\d+)/$', item_detail_view)
+    path('', views.home_page, name='home_page'),
+    path('items/', include('items.urls')),
+    path('admin/', admin.site.urls),
+    path('users/', include('users.urls')),
 ]
 # eliminate on app deployment
 if settings.DEBUG:

@@ -15,7 +15,7 @@ class ItemListView(ListView):
     #     return context
 
 
-def item_list_view(request):
+def item_list(request):
     queryset = Item.objects.all()
     context = {
         'object_list': queryset
@@ -34,9 +34,8 @@ class ItemDetailView(DetailView):
     #     return context
 
 
-def item_detail_view(request, pk=None, *args, **kwargs):
-
-    selected_item = get_object_or_404(Item, pk=pk)
+def details(request, item_id=None):
+    selected_item = get_object_or_404(Item, pk=item_id)
     context = {
         'object_list': selected_item
     }

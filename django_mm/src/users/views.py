@@ -6,17 +6,6 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 
 
-def home_page(request):
-    context = {
-        "members": "STEPH WALLY MANNY HEC CORA ANGEL",
-        "content": "Best Puerto rican ecommerce site",
-
-    }
-    if request.user.is_authenticated:
-        context["premium_content"] = "YOU DA BEST!"
-    return render(request, "homePage.html", context)
-
-
 def login_page(request, backend=None):
     form = LoginForm(request.POST or None)
     context = {
