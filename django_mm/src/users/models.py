@@ -16,7 +16,7 @@ class User(DjangoUser, PermissionsMixin):
             'unique': _("A user with that username already exists."),
         },
     )
-    first_name = models.CharField(_('first name'), max_length=150, blank=True)
+    first_name = models.CharField(_('first name'), max_length=20, blank=True)
     last_name = models.CharField(_('last name'), max_length=150, blank=True)
     email = models.EmailField(_('email address'), blank=True)
     phone = models.CharField(verbose_name='Phone Number', max_length=10, blank=True, null=True)
@@ -59,4 +59,4 @@ class Location(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='locations', null=False)
     address = models.TextField(null=False, blank=False)
     city = models.CharField(max_length=15, null=False, blank=False)
-    zip_code = models.CharField(max_length=9, null=False, blank=False)
+    zip_code = models.CharField(max_length=10, null=False, blank=False)
