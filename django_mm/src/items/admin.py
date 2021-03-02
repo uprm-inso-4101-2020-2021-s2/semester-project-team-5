@@ -21,7 +21,10 @@ class ImageInline(admin.TabularInline):
 class ItemAdmin(admin.ModelAdmin):
     model = Item
 
-    list_display = ['name', 'price', 'image_tag']
+    list_display = ['name', 'price', 'image_tag', '__str__', 'Category']
+
+    class Meta:
+        model = Item
 
     readonly_fields = []
     inlines = [ImageInline]

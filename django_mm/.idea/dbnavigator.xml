@@ -34,7 +34,7 @@
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
     <connection id="409fb54c-b53a-4996-9065-a44eb7477575">
-      <console name="EcommerceDB" type="STANDARD" schema="public" session="Main" />
+      <console name="EcommerceDB" type="STANDARD" schema="public" session="Main"><![CDATA[SELECT * FROM users_user;]]></console>
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">

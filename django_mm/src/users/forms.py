@@ -8,25 +8,63 @@ User = get_user_model()
 
 class LoginForm(forms.Form):
     username = forms.CharField()
-    password = forms.CharField(widget=forms.PasswordInput)
+    password = forms.CharField(widget=forms.PasswordInput(
+        attrs={
+            "class": "form-control",
+            "placeholder": "Password"
+        }
+    ))
 
 
 class RegisterForm(forms.Form):
-    username = forms.CharField()
-    first_name = forms.CharField(label='first name', max_length=20, required=True)
-    last_name = forms.CharField(label='last name', max_length=20, required=True)
+    username = forms.CharField(widget=forms.TextInput(
+        attrs ={
+        "class": "form-control",
+        "placeholder": "username"
+    }))
+    first_name = forms.CharField(label='first name', max_length=20, required=True, widget=forms.TextInput(
+        attrs ={
+        "class": "form-control",
+        "placeholder": "firstname"
+    }))
+    last_name = forms.CharField(label='last name', max_length=20, required=True, widget=forms.TextInput(
+        attrs ={
+        "class": "form-control",
+        "placeholder": "lastname"
+    }))
     email = forms.EmailField(widget=forms.EmailInput(
         attrs={
             "class": "form-control",
             "placeholder": "email"
         }
     ))
-    password = forms.CharField(label="Password", widget=forms.PasswordInput, required=True)
+    password = forms.CharField(label="Password", widget=forms.PasswordInput(
+        attrs={
+            "class": "form-control",
+            "placeholder": "password"
+        }), required=True)
     confirmation_pass = forms.CharField(label="Confirm Password", widget=forms.PasswordInput, required=True)
-    phone = forms.CharField(label='Phone number', required=False)
-    address = forms.CharField(label="Address", widget=forms.TextInput(), required=True)
-    city = forms.CharField(label="City", max_length=15, required=True)
-    zip_code = forms.CharField(label="Zip code", max_length=10, required=True)
+    phone = forms.CharField(label='Phone number', required=False, widget=forms.TextInput(
+        attrs ={
+        "class": "form-control",
+        "placeholder": "xxx-xxx-xxxx"
+    }))
+    address = forms.CharField(label="Address", required=True, widget=forms.TextInput(
+        attrs={
+        "class": "form-control",
+        "placeholder": "neighborhood/apartment name, number, street",
+        "size": '40'
+    }))
+    city = forms.CharField(label="City", max_length=15, required=True, widget=forms.TextInput(
+        attrs ={
+        "class": "form-control",
+        "placeholder": "city"
+    }))
+    zip_code = forms.CharField(label="Zip code", max_length=10, required=True, widget=forms.TextInput(
+        attrs ={
+        "class": "form-control",
+        "placeholder": "zipcode"
+    }))
 
     def clean_username(self):
         username = self.cleaned_data.get('username')
