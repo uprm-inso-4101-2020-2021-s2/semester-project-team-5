@@ -19,7 +19,7 @@ class User(DjangoUser, PermissionsMixin):
     first_name = models.CharField(_('first name'), max_length=20, blank=True)
     last_name = models.CharField(_('last name'), max_length=150, blank=True)
     email = models.EmailField(_('email address'), blank=True)
-    phone = models.CharField(verbose_name='Phone Number', max_length=10, blank=True, null=True)
+    phone = models.CharField(verbose_name='Phone Number', max_length=12, blank=True, null=True)
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
