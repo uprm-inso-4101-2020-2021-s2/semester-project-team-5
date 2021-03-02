@@ -1,0 +1,38 @@
+h1{
+    text-align: center;
+}
+
+div.register{
+    display: block;
+    border-radius: 10px;
+    border: 1px #ddd solid;
+    background-color: #fff;
+    margin-left: 300px;
+    margin-right: 300px;
+    margin-top: 100px;
+    margin-bottom: 100px;
+
+    position: relative;
+    padding: 14px 18px;
+    box-sizing: border-box;
+    box-shadow: #609ab6;
+
+}
+p{
+    margin-left: 50px;
+}
+p.error{
+    color: red;
+}
+
+.success{
+    color: blue;
+}
+
+button{
+    color: #fff;
+    background-color: goldenrod;
+    width: 200px;
+    height: 30px;
+    margin-left: 35%;
+}
