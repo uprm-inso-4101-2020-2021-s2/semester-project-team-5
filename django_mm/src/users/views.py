@@ -11,7 +11,7 @@ from .models import Location
 User = get_user_model()
 
 
-@require_http_methods(['POST'])
+@require_http_methods(['POST', 'GET'])
 def login_page(request, backend=None):
     form = LoginForm(request.POST or None)
     context = {
@@ -39,7 +39,7 @@ def login_page(request, backend=None):
     return render(request, "authentication/login.html", context)
 
 
-@require_http_methods(['POST'])
+@require_http_methods(['POST', 'GET'])
 def register_page(request):
     form = RegisterForm(request.POST or None)
     context = {
