@@ -4,7 +4,7 @@
 ## Wallecom
 Wallecom is an ecommerce platform, that is targeted towards the Puerto Rican people.  
 
-##TEAM
+## TEAM
 
 * Stephanie Vargas
 * Coralys M. Cortes 
@@ -56,7 +56,7 @@ In an older/legacy computer the command is:
 pip install psycopg2-binary
 ```
 
-###Running
+### Running
 
 In order to run the project a database needs to be created using the SQL shell that was downloaded when postgresSQL was installed. The SQL shell, can be opened from the MAC spotlight (command + space) or Windows run as (windows key + R) and typing SQL shell. Once opened it will ask for some prompts (including a password), they don't need to be filled unless it was given in installation, so just press enter. After that to create the database needed to run this projects, run this commands inside (the SQL shell):
 
@@ -69,7 +69,7 @@ In order to run the project a database needs to be created using the SQL shell t
 
 Once this commands were given the database is created and the project can be runned. 
 
-###In MACOS
+### In MACOS
 
 To run this project in MAC, first clone or download this repository, after navigating to this project, use the following commands to start the project and virtual environment
 
@@ -83,11 +83,11 @@ To run this project in MAC, first clone or download this repository, after navig
 ```
 
 
-##Built with 
+## Built with 
 
 * [Django] - Python Web framework
 
-##Acknowledgments
+## Acknowledgments
 
 * Bootstrap - https://getbootstrap.com/docs/5.0/getting-started/introduction/
 
