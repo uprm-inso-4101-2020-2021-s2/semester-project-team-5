@@ -8,7 +8,8 @@
       <div class="card-body">
     <h5 class="card-title">{{instance.title}}</h5>
     <p class="card-text">{{instance.description}}</p>
-    <a href="{{item.get_absolute_url}}" class="btn btn-primary">VIEW</a>
+<!--    <a href="{{instance.get_absolute_url}}" class="btn btn-primary">VIEW</a>-->
+    <a href="{% url 'items:details' Category=instance.Category %}" class="btn btn-primary">VIEW</a>
   </div>
 </div>
 </div>
