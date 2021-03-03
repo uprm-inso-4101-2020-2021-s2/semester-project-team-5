@@ -29,10 +29,19 @@ p.error{
     color: blue;
 }
 
-button{
-    color: #fff;
-    background-color: goldenrod;
+.button{
+    color: #0d6efd;
+    background-color: #0d6efd;
     width: 200px;
     height: 30px;
-    margin-left: 35%;
+    color: white;
+    font-family: "Montserrat", sans-serif;
+    text-transform: uppercase;
+    line-height: 7px;
+    margin: 1rem;
+    padding: 0.5rem;
+    border: 2px solid  black;
+    border-radius: 0.5rem;
+    margin-left:235px;
+    transition: all 900ms ease-in-out
 }
