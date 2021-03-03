@@ -71,7 +71,7 @@ Once this commands were given the database is created and the project can be run
 
 ### In MACOS
 
-To run this project in MAC, first clone or download this repository, after navigating to this project, use the following commands to start the project and virtual environment
+To run this project in MAC, first clone or download this repository, after navigating to this project, use the following commands to start the project and virtual environment: 
 
 ```
  cd django_mm
