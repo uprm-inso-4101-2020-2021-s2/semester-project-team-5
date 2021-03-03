@@ -1,10 +1,13 @@
 <!DOCTYPE html>
+{% extends "base/base.html" %}
 <html>
 <body>
+{% block content %}
 <p>{{item.name}}<br></p>
 <p>{{item.description}}<br></p>
 <p>{{item.price}}<br></p>
  <img src='{{item.images.first.source.url}}' style="width:300px;height:300px;">
 </body>
+{% endblock %}
 </html>
 

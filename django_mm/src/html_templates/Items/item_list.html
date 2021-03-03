@@ -1,6 +1,17 @@
+
 <!DOCTYPE html>
-<html>
+{% extends "base/base.html" %}
+{% block content %}
+    <div class='container'>
+        <div class = 'row'>
+
 {% for item in object_list %}
-<a href='{{item.get_absolute_url}}'> {{item.name}}<br/></a>
+
+     <div class='col-sm-4'>
+     <br><br><br>
+    {% include "card.html" with instance=item%}
+     </div>
 {% endfor %}
-</html>
+        </div>
+    </div>
+{% endblock %}

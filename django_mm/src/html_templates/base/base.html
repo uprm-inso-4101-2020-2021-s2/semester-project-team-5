@@ -1,0 +1,17 @@
+
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title> Base Template </title>
+    {% include 'base/css.html' %}
+   </head>
+   <body>
+    {% include "base/navbar.html" with name="Wallecom" %}
+    {% block content %}{% endblock %}
+    {% include "base/js.html" %}
+  </body>
+</html>
