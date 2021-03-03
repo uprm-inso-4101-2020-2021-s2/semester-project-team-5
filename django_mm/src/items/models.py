@@ -1,8 +1,7 @@
 import random
 import os
-
 from django.db import models
-
+from django.urls import reverse
 
 # Writing in the fields that are going to be on the database
 
@@ -46,7 +45,7 @@ class Item(models.Model):
 
 
     def get_absolute_url(self):
-        return "/items/{Category}/".format(Category=self.Category)
+        return reverse("items:details", kwargs={"Category": self.Category})
 
 
 
