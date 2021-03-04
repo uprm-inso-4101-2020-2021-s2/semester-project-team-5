@@ -1,3 +1,7 @@
+{% url 'items:item_list' as item_list %}
+{% url 'users:login_page' as login_page %}
+{% url 'users:register_page' as register_page%}
+
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark  bg-light">
   <div class="container-fluid">
     <a class="navbar-brand" href="#">{{name}}</a>
@@ -7,16 +11,21 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Home</a>
-        <li class="nav-item">
-          <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Items</a>
+          <a class="nav-link {% if request.path == item_list %}active{% endif %}" href="{{item_list}}" tabindex="-1" aria-disabled="true">Items</a>
         </li>
+         {% if request.user.is_authenticated %}
          <li class="nav-item">
-          <a class="nav-link " href="{% url 'users:login_page' %}" tabindex="-1" aria-disabled="true">Log-in</a>
+          <a class="nav-link " href="{% url 'users:logout' %}" tabindex="-1" aria-disabled="true">Logout</a>
         </li>
+          {% else %}
+         <li class="nav-item">
+          <a class="nav-link " href="{{login_page}}" tabindex="-1" aria-disabled="true">Login</a>
+        </li>
+          {% endif %}
           <li class="nav-item">
-          <a class="nav-link " href="{% url 'users:register_page' %}" tabindex="-1" aria-disabled="true">Register</a>
+          <a class="nav-link " href="{{register_page}}" tabindex="-1" aria-disabled="true">Register</a>
         </li>
+
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             Categories

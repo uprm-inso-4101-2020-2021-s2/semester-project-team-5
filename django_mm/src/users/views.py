@@ -1,11 +1,12 @@
 from django.contrib import messages
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.views.decorators.http import require_http_methods
-
 from .forms import LoginForm, RegisterForm
 from django.contrib.auth import authenticate, login, get_user_model
-
+from django.contrib import auth
 from .models import Location
+from django.contrib.auth import logout
 
 User = get_user_model()
 
@@ -61,3 +62,10 @@ def register_page(request):
         messages.success(request, 'User "%s" added succesfully' % new_user.username)
 
     return render(request, "authentication/register.html", context)
+
+
+def logout_page(request):
+    auth.logout(request)
+    # return redirect('items/')
+    # logout(request)
+    return HttpResponseRedirect("/items/")

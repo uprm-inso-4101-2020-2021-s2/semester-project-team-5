@@ -1,17 +1,16 @@
-
 <!DOCTYPE html>
 {% extends "base/base.html" %}
 {% block content %}
     <div class='container'>
         <div class = 'row'>
 
-{% for item in object_list %}
+    {% for item in object_list %}
 
      <div class='col-sm-4'>
      <br><br><br>
     {% include "items/card.html" with instance=item%}
      </div>
-{% endfor %}
+    {% endfor %}
         </div>
     </div>
 {% endblock %}
