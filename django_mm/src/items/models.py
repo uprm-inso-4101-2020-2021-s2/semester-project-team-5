@@ -43,11 +43,8 @@ class Item(models.Model):
     Category = models.CharField(max_length=20, null=False, default='', unique=True)
     objects = ItemManager()
 
-
     def get_absolute_url(self):
         return reverse("items:details", kwargs={"Category": self.Category})
-
-
 
     def __str__(self):
         return self.name

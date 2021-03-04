@@ -3,6 +3,7 @@
 {% load static %}
 <link rel="stylesheet" type="text/css" href="{% static 'css_templates/loginStyle.css' %}">
 <h1> LOG IN </h1>
+
 <form method='POST'> {% csrf_token %}
     {{form}}
     <br><br>

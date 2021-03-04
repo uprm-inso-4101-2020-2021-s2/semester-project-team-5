@@ -1,16 +1,16 @@
 div.register{
     display: block;
     border-radius: 10px;
-    border: 1px #ddd solid;
-    background-color: #fff;
-    margin-left: 300px;
-    margin-right: 300px;
-    margin-top: 100px;
-    margin-bottom: 100px;
+    border: 3px #d0d0d0 solid;
+    background-color: #ffffff;
+    margin-left: 25%;
+    margin-right: 25%;
+    box-shadow: 7px 7px #cac6c6;
+    margin-top: 10%;
+    margin-bottom: 10%;
     position: relative;
     padding: 14px 18px;
     box-sizing: border-box;
-    box-shadow: #609ab6;
 
 }
 p{
@@ -24,7 +24,7 @@ h1 {
   text-align: center;
 }
 .success{
-    color: blue;
+    color: #158600;
 }
 
 
@@ -42,6 +42,6 @@ h1 {
     padding: 0.5rem;
     border: 2px solid  black;
     border-radius: 0.5rem;
-    margin-left:235px;
+    margin-left: 33%;
     transition: all 900ms ease-in-out
 }
