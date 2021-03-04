@@ -16,21 +16,21 @@ class LoginForm(forms.Form):
     ))
 
 
-class RegisterForm(forms.Form):
+class RegisterForm(forms.ModelForm):
     username = forms.CharField(widget=forms.TextInput(
         attrs ={
         "class": "form-control",
         "placeholder": "username"
     }))
-    first_name = forms.CharField(label='first name', max_length=20, required=True, widget=forms.TextInput(
+    first_name = forms.CharField(label='First name', max_length=20, required=True, widget=forms.TextInput(
         attrs ={
         "class": "form-control",
-        "placeholder": "firstname"
+        "placeholder": "First name"
     }))
-    last_name = forms.CharField(label='last name', max_length=20, required=True, widget=forms.TextInput(
+    last_name = forms.CharField(label='Last name', max_length=20, required=True, widget=forms.TextInput(
         attrs ={
         "class": "form-control",
-        "placeholder": "lastname"
+        "placeholder": "Last name"
     }))
     email = forms.EmailField(widget=forms.EmailInput(
         attrs={
@@ -42,11 +42,14 @@ class RegisterForm(forms.Form):
         attrs={
             "class": "form-control",
             "placeholder": "password"
-        }), required=True)
-    confirmation_pass = forms.CharField(label="Confirm Password", widget=forms.PasswordInput, required=True)
+        }))
+    confirmation_pass = forms.CharField(label="Confirm Password", widget=forms.PasswordInput(   attrs={
+            # "class": "form-control",
+            "placeholder": "Confirm password"
+        }))
     phone = forms.CharField(label='Phone number', required=False, widget=forms.TextInput(
         attrs ={
-        "class": "form-control",
+        # "class": "form-control",
         "placeholder": "xxx-xxx-xxxx"
     }))
     address = forms.CharField(label="Address", required=True, widget=forms.TextInput(
@@ -69,14 +72,14 @@ class RegisterForm(forms.Form):
     def clean_username(self):
         username = self.cleaned_data.get('username')
         queryset = User.objects.filter(username=username)
-        if queryset.exists():
+        if queryset.exists() and self.instance is None:
             raise forms.ValidationError("Username is taken")
         return username
 
     def clean_email(self):
         email = self.cleaned_data.get('email')
         queryset = User.objects.filter(email=email)
-        if queryset.exists():
+        if queryset.exists() and self.instance is None:
             raise forms.ValidationError("Email is taken")
         return email
 
@@ -102,3 +105,24 @@ class RegisterForm(forms.Form):
         if password != confirmation_pass:
             raise forms.ValidationError("Passwords do not match")
         return data
+
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name', 'username', 'phone', 'email']
+
+
+class ProfileForm(RegisterForm):
+
+    def __init__(self, request, *args, **kwargs):
+        self.request = request
+        location = kwargs['instance'].locations.last()
+        kwargs.update(initial={'address': location.address,
+                               'city': location.city,
+                               'zip_code': location.zip_code})
+        super().__init__(*args, **kwargs)
+        self.fields['username'].widget.attrs['readonly'] = True
+        self.fields['username'].disabled = True
+        self.fields['password'].required = False
+        self.fields['password'].label = 'New password'
+        self.fields['confirmation_pass'].required = False
+        self.fields['confirmation_pass'].label = 'Confirm new password'

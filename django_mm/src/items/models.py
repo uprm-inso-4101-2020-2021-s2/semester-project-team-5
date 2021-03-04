@@ -45,11 +45,8 @@ class Item(models.Model):
 
     objects = ItemManager()
 
-
     def get_absolute_url(self):
         return "/items/{Category}/".format(Category=self.Category)
-
-
 
     def __str__(self):
         return self.name
