@@ -88,7 +88,7 @@ def logout_page(request):
     auth.logout(request)
     # return redirect('items/')
     # logout(request)
-    return HttpResponseRedirect("/items/")
+    return HttpResponseRedirect("/")
 
 
 @login_required(login_url='/users/login/')
