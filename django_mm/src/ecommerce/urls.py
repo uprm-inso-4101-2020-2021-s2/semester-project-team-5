@@ -24,8 +24,8 @@ from . import views
 app_name = 'ecommerce'
 
 urlpatterns = [
-    path('', views.home_page, name='home_page'),
-    path('items/', include('items.urls')),
+    # path('', views.home_page, name='home_page'),
+    path('', include('items.urls')),
     path('admin/', admin.site.urls),
     path('users/', include('users.urls')),
 ]
