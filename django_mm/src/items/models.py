@@ -9,6 +9,7 @@ from django.urls import reverse
 # 2 functions to change the name of the file
 # This is made for no error in image loading
 from ecommerce import settings
+from django.db.models import Q
 
 
 def get_ext_from_file(filepath):
@@ -33,6 +34,10 @@ class ItemManager(models.Manager):
         return None
 
 
+    def search(self, query):
+        lookups = Q(Category__icontains=query) | Q(name__icontains=query) | Q(description__icontains=query)
+        return self.get_queryset().filter(lookups).distinct()
+
 
 class Item(models.Model):
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='items', null=True)
@@ -52,7 +57,7 @@ class Item(models.Model):
 
 class Image(models.Model):
     item = models.ForeignKey(Item, models.CASCADE, related_name='images', null=False)
-    # image pillow needed to be install and it becomes a requirement
+    # image pillow needed to be installed and it becomes a requirement
     source = models.ImageField(upload_to=upload_image_path, null=False, blank=False)
 
 

@@ -44,6 +44,7 @@ INSTALLED_APPS = (
     # apps made by team5
     'items',
     'users',
+    'cart',
 )
 
 MIDDLEWARE = [

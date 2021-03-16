@@ -31,8 +31,6 @@ class User(DjangoUser, PermissionsMixin):
     REQUIRED_FIELDS = ['email']
 
 
-
-
     def clean(self):
         super().clean()
         self.email = self.__class__.objects.normalize_email(self.email)
@@ -52,7 +50,10 @@ class User(DjangoUser, PermissionsMixin):
         verbose_name_plural = _('users')
 
     def __str__(self):
-        return self.get_full_name()
+        if self.is_superuser:
+            return self.username
+        else:
+            return self.get_full_name()
 
 
 class Location(models.Model):

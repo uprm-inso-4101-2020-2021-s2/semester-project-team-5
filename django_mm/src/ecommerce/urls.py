@@ -19,15 +19,16 @@ from django.contrib import admin
 from django.urls import include, path
 from django.conf import settings            # eliminate on app deployment
 from django.conf.urls.static import static  # eliminate on app deployment
-from . import views
+
 
 app_name = 'ecommerce'
 
 urlpatterns = [
-    # path('', views.home_page, name='home_page'),
-    path('', include('items.urls')),
     path('admin/', admin.site.urls),
+    path('cart/', include('cart.urls')),
+    path('', include('items.urls')),
     path('users/', include('users.urls')),
+
 ]
 # eliminate on app deployment
 if settings.DEBUG:

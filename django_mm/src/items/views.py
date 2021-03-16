@@ -1,19 +1,32 @@
 from django.http import Http404
-from django.shortcuts import render, get_object_or_404
-from django.views.generic import ListView, DetailView
+from django.shortcuts import render
+from django.views.generic import DetailView, ListView
 from .models import Item
+from cart.models import Cart
 
 
-class ItemListView(ListView):
-    queryset = Item.objects.all()
-    temp_name = "items/item_list.html"
 
-    # TEST TO SEE THE ITEMS INFORMATION
-    # every class list view needs this method, to view the data
-    # def get_context_data(self, *args, **kwargs):
-    #     context = super(ItemListView, self).get_context_data(*args, **kwargs)
-    #     print(context)
-    #     return context
+class SearchItemListView(ListView):
+    template_name = "Items/searches.html"
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(SearchItemListView, self).get_context_data(*args, **kwargs)
+        context['query'] = self.request.GET.get('q')
+        return context
+
+
+    def get_queryset(self, *args, **kwargs):
+        request = self.request
+        items_dict = request.GET
+        query = items_dict.get('q')
+        if query is not None:
+            return Item.objects.search(query)
+        return Item.objects.none()
+
+
+
+
+
 
 
 def item_list(request):
@@ -21,16 +34,31 @@ def item_list(request):
     context = {
         'object_list': queryset
     }
-    return render(request, "items/item_list.html", context)
+    return render(request, "Items/item_list.html", context)
 
 
 class ItemDetailView(DetailView):
     queryset = Item.objects.all()
-    temp_name = "items/item_detail.html"
+    template_name = "Items/item_detail.html"
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(ItemDetailView, self).get_context_data(*args, **kwargs)
+        cart_id = self.request.session.get("cart_id", None)
+        qs = Cart.objects.filter(id=cart_id)
+        if qs.count() == 1:
+            print("Cart ID exists")
+            cart_obj = qs.first()
+            if self.request.user.is_authenticated and cart_obj.user is None:  # once it gets authenticated it changes to that user
+                cart_obj.user = self.request.user
+                cart_obj.save()
+        else:
+            cart_obj = Cart.objects.new(user=self.request.user)
+            self.request.session['cart_id'] = cart_obj.id
+        context['cart'] = cart_obj
+        return context
 
     # Manage multiple slugs items
     def get_object(self, *args, **kwargs):
-        request = self.request
         Category = self.kwargs.get('Category')
         try:
             instance = Item.objects.get(Category=Category)
@@ -50,14 +78,13 @@ class ItemDetailView(DetailView):
 
 
 def details(request, item_id=None):
-    # selected_item = get_object_or_404(Item, pk=item_id)
+
     instance = Item.objects.get_by_id(item_id)
     if instance is None:
         raise Http404("Product doesn't exist")
 
     context = {
-        # 'item': selected_item
         'item': instance
     }
 
-    return render(request, "items/item_detail.html", context)
+    return render(request, "Items/item_detail.html", context)

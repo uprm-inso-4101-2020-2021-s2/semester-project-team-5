@@ -9,7 +9,10 @@
    </head>
    <body>
     {% include "base/navbar.html" with name="Wallecom" %}
-    {% block content %}{% endblock %}
+    <div class="'container">
+        {% block content %}{% endblock %}
+    </div>
+
     {% include "base/js.html" %}
   </body>
 </html>
