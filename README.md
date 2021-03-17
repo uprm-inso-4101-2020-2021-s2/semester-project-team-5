@@ -91,6 +91,8 @@ To run this project in MAC, first clone or download this repository, after navig
 
 * Bootstrap - https://getbootstrap.com/docs/5.0/getting-started/introduction/
 
+* Font Awesome - https://fontawesome.com/start
+
 * Justin Mitchell - Coding Entreprenaur & Teacher
 
 
