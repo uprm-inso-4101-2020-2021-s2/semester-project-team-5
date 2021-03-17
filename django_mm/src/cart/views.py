@@ -18,13 +18,7 @@ def cart_home(request):
         cart_obj = Cart.objects.new(user=request.user)
         request.session['cart_id'] = cart_obj.id
 
-    items = cart_obj.items.all()
-    total = 0
-    for eachitem in items:
-        total += eachitem.price
-    cart_obj.total = total
-    cart_obj.save()
-    return render(request, "cart/main.html", {})
+    return render(request, "cart/main.html", {"cart": cart_obj})
 
 
 def cart_update(request):
@@ -52,4 +46,5 @@ def cart_update(request):
             cart_obj.items.remove(item_obj)
         else:
             cart_obj.items.add(item_obj)
+        request.session['cart_total'] = cart_obj.items.count()
     return redirect('cart:cart_home')
