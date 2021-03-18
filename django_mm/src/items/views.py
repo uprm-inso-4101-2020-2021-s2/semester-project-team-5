@@ -1,7 +1,9 @@
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
-from django.http import Http404
-from django.shortcuts import render
+from django.http import Http404, HttpResponseRedirect
+from django.shortcuts import render, get_object_or_404
+from django.urls import reverse
 from django.views.decorators.http import require_http_methods
 from django.views.generic import DetailView, ListView
 
@@ -130,6 +132,19 @@ def search_item_by_category(request, category):
     }
     return render(request, "Items/item_list.html", context)
 
+
+@login_required(login_url='/users/login/')
+@require_http_methods(['POST', 'GET'])
+def delete_item(request, item_id):
+    item = get_object_or_404(Item, pk=item_id)
+    item_name = item.name
+    if request.user.id == item.owner_id:
+        item.delete()
+        messages.success(request, 'Item {name} deleted successfully'.format(name=item_name))
+        return HttpResponseRedirect(reverse('items:selling_items'))
+
+    messages.error(request, 'Invalid request'.format(name=item_name))
+    return HttpResponseRedirect(reverse('items:selling', args=(request.user.id,)), status=403) #must redirect to the change view of the item
 
 
 

@@ -2,16 +2,14 @@ import random
 import os
 from django.db import models
 from django.urls import reverse
+from ecommerce import settings
+from django.db.models import Q
 
 # Writing in the fields that are going to be on the database
 
 
 # 2 functions to change the name of the file
 # This is made for no error in image loading
-from ecommerce import settings
-from django.db.models import Q
-
-
 def get_ext_from_file(filepath):
     base_name = os.path.basename(filepath)
     name, ext = os.path.splitext(base_name)
@@ -81,5 +79,10 @@ class Image(models.Model):
     item = models.ForeignKey(Item, models.CASCADE, related_name='images', null=False)
     # image pillow needed to be installed and it becomes a requirement
     source = models.ImageField(upload_to=upload_image_path, null=False, blank=False)
+
+    def delete(self, using=None, keep_parents=False):
+        image_path = settings.MEDIA_ROOT + self.source.url
+        os.remove(image_path)
+        return super().delete(using, keep_parents)
 
 
