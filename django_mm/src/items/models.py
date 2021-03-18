@@ -47,6 +47,7 @@ CATEGORY_MUSIC = '4'
 CATEGORY_JEWELRY = '5'
 CATEGORY_CLOTHES = '6'
 CATEGORY_OTHERS = '7'
+CATEGORY_BEAUTY = '8'
 
 
 class Item(models.Model):
@@ -58,6 +59,7 @@ class Item(models.Model):
         (CATEGORY_MUSIC, 'Music'),
         (CATEGORY_JEWELRY, 'Jewelry'),
         (CATEGORY_CLOTHES, 'Clothes'),
+        (CATEGORY_BEAUTY, 'Makeups & Beauty'),
         (CATEGORY_OTHERS, 'Others'),
     )
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='items', null=True)
