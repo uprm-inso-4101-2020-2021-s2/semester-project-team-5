@@ -10,13 +10,18 @@
     <div class='container'>
         <div class = 'row'>
 
-    {% for item in object_list %}
+    {% if object_list.exists%}
+        {% for item in object_list %}
 
-     <div class='col-sm-4'>
-     <br><br><br>
-    {% include "items/card.html" with instance=item%}
-     </div>
-    {% endfor %}
+         <div class='col-sm-4'>
+         <br><br><br>
+        {% include "items/card.html" with instance=item%}
+         </div>
+        {% endfor %}
+    {% else %}
+            <H2>No items availables</H2>
+
+    {% endif%}
         </div>
     </div>
 {% endblock %}

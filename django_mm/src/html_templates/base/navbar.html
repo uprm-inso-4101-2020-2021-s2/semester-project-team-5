@@ -38,8 +38,14 @@
             Categories
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <li><a class="dropdown-item" href="#"></a></li>
-            <li><a class="dropdown-item" href="#"></a></li>
+            <li><a class="dropdown-item" href="{% url 'items:search_item_by_category' category=0 %}">Technology</a></li>
+            <li><a class="dropdown-item" href="{% url 'items:search_item_by_category' category=1 %}">Home & Garden</a></li>
+            <li><a class="dropdown-item" href="{% url 'items:search_item_by_category' category=2 %}">Parts & Accessories</a></li>
+            <li><a class="dropdown-item" href="{% url 'items:search_item_by_category' category=3 %}">Toys</a></li>
+            <li><a class="dropdown-item" href="{% url 'items:search_item_by_category' category=4 %}">Music</a></li>
+            <li><a class="dropdown-item" href="{% url 'items:search_item_by_category' category=5 %}">Jewelry</a></li>
+            <li><a class="dropdown-item" href="{% url 'items:search_item_by_category' category=6 %}">Clothes</a></li>
+            <li><a class="dropdown-item" href="{% url 'items:search_item_by_category' category=7 %}">Others</a></li>
           </ul>
          </li>
         </li>
