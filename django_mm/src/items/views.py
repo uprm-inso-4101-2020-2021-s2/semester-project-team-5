@@ -112,3 +112,14 @@ def add_item(request):
     return render(request, "Items/add_item.html", context)
 
 
+@login_required(login_url='/users/login/')
+@require_http_methods(['GET'])
+def selling_items(request):
+    queryset = Item.objects.filter(owner_id=request.user.pk)
+    context = {
+        'object_list': queryset
+    }
+    return render(request, "Items/item_list.html", context)
+
+
+

@@ -11,4 +11,5 @@ urlpatterns = [
     path('search/', SearchItemListView.as_view(), name='searching'),
     re_path(r'^items/(?P<Category>[\w-]+)/$', ItemDetailView.as_view(), name='details'),
     path('items/add/', views.add_item, name='add_item'),
+    path('selling/', views.selling_items, name='selling_items'),
 ]
