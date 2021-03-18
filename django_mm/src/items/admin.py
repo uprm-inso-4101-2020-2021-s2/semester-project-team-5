@@ -21,7 +21,7 @@ class ImageInline(admin.TabularInline):
 class ItemAdmin(admin.ModelAdmin):
     model = Item
 
-    list_display = ['name', 'price', 'image_tag', '__str__', 'Category']
+    list_display = ['name', 'price', 'image_tag', '__str__', 'category']
 
     class Meta:
         model = Item

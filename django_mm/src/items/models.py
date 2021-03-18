@@ -35,21 +35,31 @@ class ItemManager(models.Manager):
 
 
     def search(self, query):
-        lookups = Q(Category__icontains=query) | Q(name__icontains=query) | Q(description__icontains=query)
+        lookups = Q(category__icontains=query) | Q(name__icontains=query) | Q(description__icontains=query)
         return self.get_queryset().filter(lookups).distinct()
 
 
 class Item(models.Model):
+    CATEGORY_CHOICES = (
+        ('0', 'Technology'),
+        ('1', 'Home & Garden'),
+        ('2', 'Parts & Accessories'),
+        ('3', 'Toys'),
+        ('4', 'Music'),
+        ('5', 'Jewelry'),
+        ('6', 'Clothes'),
+        ('7', 'Others'),
+    )
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='items', null=True)
     name = models.CharField(max_length=50)
     description = models.TextField()
     price = models.DecimalField(max_digits=10, decimal_places=2, null=False)
     quantity = models.IntegerField(default=1, null=False)
-    Category = models.CharField(max_length=20, null=False, default='', unique=True)
+    category = models.CharField(max_length=20, null=False, default=0, choices=CATEGORY_CHOICES)
     objects = ItemManager()
 
     def get_absolute_url(self):
-        return reverse("items:details", kwargs={"Category": self.Category})
+        return reverse("items:details", kwargs={"Category": self.category})
 
     def __str__(self):
         return self.name

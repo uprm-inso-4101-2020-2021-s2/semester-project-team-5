@@ -44,3 +44,11 @@ class ImageForm(forms.ModelForm):
 
 
 ImageFormSet = inlineformset_factory(Item, Image, form=ImageForm)
+
+
+class AddItemForm(forms.ModelForm):
+    category = forms.ChoiceField(choices=Item.CATEGORY_CHOICES)
+
+    class Meta:
+        model = Item
+        fields = ['name', 'description', 'price', 'quantity', 'category']

@@ -1,9 +1,13 @@
+from django.contrib.auth.decorators import login_required
+from django.db import transaction
 from django.http import Http404
 from django.shortcuts import render
+from django.views.decorators.http import require_http_methods
 from django.views.generic import DetailView, ListView
-from .models import Item
-from cart.models import Cart
 
+from .forms import AddItemForm
+from .models import Item, Image
+from cart.models import Cart
 
 
 class SearchItemListView(ListView):
@@ -14,7 +18,6 @@ class SearchItemListView(ListView):
         context['query'] = self.request.GET.get('q')
         return context
 
-
     def get_queryset(self, *args, **kwargs):
         request = self.request
         items_dict = request.GET
@@ -22,11 +25,6 @@ class SearchItemListView(ListView):
         if query is not None:
             return Item.objects.search(query)
         return Item.objects.none()
-
-
-
-
-
 
 
 def item_list(request):
@@ -59,13 +57,13 @@ class ItemDetailView(DetailView):
 
     # Manage multiple slugs items
     def get_object(self, *args, **kwargs):
-        Category = self.kwargs.get('Category')
+        Category = self.kwargs.get('category')
         try:
             instance = Item.objects.get(Category=Category)
         except Item.DoesNotExist:
             raise Http404("Not found ...")
         except Item.MultipleObjectsReturned:
-            qs = Item.objects.filter(Category=Category)
+            qs = Item.objects.filter(category=Category)
             return qs.first()
         except:
             raise Http404("No items")
@@ -79,7 +77,7 @@ class ItemDetailView(DetailView):
 
 def details(request, item_id=None):
 
-    instance = Item.objects.get_by_id(item_id)
+    instance = Item.objects.get(pk=item_id)
     if instance is None:
         raise Http404("Product doesn't exist")
 
@@ -88,3 +86,29 @@ def details(request, item_id=None):
     }
 
     return render(request, "Items/item_detail.html", context)
+
+
+@login_required(login_url='/users/login/')
+@require_http_methods(['POST', 'GET'])
+def add_item(request):
+    form = AddItemForm(request.POST or None, request.FILES)
+    if request.method == 'POST' and form.is_valid():
+        with transaction.atomic():
+            item = Item(owner_id=request.user.id,
+                        name=form.cleaned_data['name'],
+                        description=form.cleaned_data['description'],
+                        price=form.cleaned_data['price'],
+                        quantity=form.cleaned_data['quantity'])
+            item.save()
+
+            images = request.FILES.getlist('images')
+            for image in images:
+                image = Image(item_id=item.id, source=image)
+                image.save()
+
+    context = {
+        'form': form,
+    }
+    return render(request, "Items/add_item.html", context)
+
+

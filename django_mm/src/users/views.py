@@ -66,6 +66,7 @@ def create_or_update_user(form, user=None):
     location.city = form.cleaned_data.get('city')
     location.zip_code = form.cleaned_data.get('zip_code')
     location.save()
+    return user
 
 
 @require_http_methods(['POST', 'GET'])
@@ -77,11 +78,11 @@ def register_page(request):
         'button_text': 'Register'
     }
     if form.is_valid():
-        create_or_update_user(form)
-        messages.success(request, 'Account created successfully')
+        new_user = create_or_update_user(form)
+        login(request, new_user)
+        return HttpResponseRedirect("/")
+
     return render(request, "authentication/user_information.html", context)
-
-
 
 
 def logout_page(request):
