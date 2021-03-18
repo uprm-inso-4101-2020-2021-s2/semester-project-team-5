@@ -122,4 +122,14 @@ def selling_items(request):
     return render(request, "Items/item_list.html", context)
 
 
+@require_http_methods(['GET'])
+def search_item_by_category(request, category):
+    queryset = Item.objects.filter(category=category)
+    context = {
+        'object_list': queryset
+    }
+    return render(request, "Items/item_list.html", context)
+
+
+
 

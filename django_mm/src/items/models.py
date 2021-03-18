@@ -39,16 +39,26 @@ class ItemManager(models.Manager):
         return self.get_queryset().filter(lookups).distinct()
 
 
+CATEGORY_TECHNOLOGY = '0'
+CATEGORY_HOME_AND_GARDEN = '1'
+CATEGORY_PARTS_ACCESSORIES = '2'
+CATEGORY_TOYS = '3'
+CATEGORY_MUSIC = '4'
+CATEGORY_JEWELRY = '5'
+CATEGORY_CLOTHES = '6'
+CATEGORY_OTHERS = '7'
+
+
 class Item(models.Model):
     CATEGORY_CHOICES = (
-        ('0', 'Technology'),
-        ('1', 'Home & Garden'),
-        ('2', 'Parts & Accessories'),
-        ('3', 'Toys'),
-        ('4', 'Music'),
-        ('5', 'Jewelry'),
-        ('6', 'Clothes'),
-        ('7', 'Others'),
+        (CATEGORY_TECHNOLOGY, 'Technology'),
+        (CATEGORY_HOME_AND_GARDEN, 'Home & Garden'),
+        (CATEGORY_PARTS_ACCESSORIES, 'Parts & Accessories'),
+        (CATEGORY_TOYS, 'Toys'),
+        (CATEGORY_MUSIC, 'Music'),
+        (CATEGORY_JEWELRY, 'Jewelry'),
+        (CATEGORY_CLOTHES, 'Clothes'),
+        (CATEGORY_OTHERS, 'Others'),
     )
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='items', null=True)
     name = models.CharField(max_length=50)
