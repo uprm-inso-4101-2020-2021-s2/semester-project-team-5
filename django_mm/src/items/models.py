@@ -77,7 +77,7 @@ class Item(models.Model):
     description = models.TextField()
     price = models.DecimalField(max_digits=10, decimal_places=2, null=False)
     quantity = models.IntegerField(default=1, null=False)
-    category = models.CharField(max_length=20, null=False, default=0, choices=CATEGORY_CHOICES)
+    category = models.CharField(max_length=20, null=False, choices=CATEGORY_CHOICES)
     objects = ItemManager()
 
     def get_absolute_url(self):

@@ -89,7 +89,8 @@ def add_item(request):
                         name=form.cleaned_data['name'],
                         description=form.cleaned_data['description'],
                         price=form.cleaned_data['price'],
-                        quantity=form.cleaned_data['quantity'])
+                        quantity=form.cleaned_data['quantity'],
+                        category=form.cleaned_data['category'])
             item.save()
 
             images = request.FILES.getlist('images')
