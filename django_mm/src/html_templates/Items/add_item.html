@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<div class="add_item">
+<div class="add_item" style="text-align: center;">
     <form method='POST' enctype="multipart/form-data"> {% csrf_token %}
         {% for field in form%}
              <p>
@@ -10,8 +10,10 @@
                 {{field}}
             </p>
         {% endfor %}
-        <label>Upload</label><br>
-        <input required name="images" type="file" multiple class="form-control-file">
+        <div class='md-6'>
+            <label>Upload</label><br>
+            <input required name="images" type="file" multiple class="form-control-file">
+        </div>
         <br>
         <button type= 'submit' class='btn btn-primary'>Add Item</button>
     </form>

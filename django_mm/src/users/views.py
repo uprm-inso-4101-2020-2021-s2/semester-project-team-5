@@ -32,8 +32,6 @@ def login_page(request, backend=None):
             login(request, user)
             # Redirect to a success page.
             context['form'] = LoginForm()
-            if user.is_superuser:
-                return redirect("/admin")
             if 'next' in request.GET:
                 return redirect(request.GET['next'])
             else:

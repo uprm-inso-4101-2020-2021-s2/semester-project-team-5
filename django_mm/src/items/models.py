@@ -47,18 +47,30 @@ CATEGORY_CLOTHES = '6'
 CATEGORY_OTHERS = '7'
 CATEGORY_BEAUTY = '8'
 
+CATEGORY = {
+    CATEGORY_TECHNOLOGY: 'Technology',
+    CATEGORY_HOME_AND_GARDEN: 'Home & Garden',
+    CATEGORY_PARTS_ACCESSORIES: 'Parts & Accessories',
+    CATEGORY_TOYS: 'Toys',
+    CATEGORY_MUSIC: 'Music',
+    CATEGORY_JEWELRY: 'Jewelry',
+    CATEGORY_CLOTHES: 'Clothes',
+    CATEGORY_BEAUTY: 'Makeups & Beauty',
+    CATEGORY_OTHERS: 'Others'
+}
+
 
 class Item(models.Model):
     CATEGORY_CHOICES = (
-        (CATEGORY_TECHNOLOGY, 'Technology'),
-        (CATEGORY_HOME_AND_GARDEN, 'Home & Garden'),
-        (CATEGORY_PARTS_ACCESSORIES, 'Parts & Accessories'),
-        (CATEGORY_TOYS, 'Toys'),
-        (CATEGORY_MUSIC, 'Music'),
-        (CATEGORY_JEWELRY, 'Jewelry'),
-        (CATEGORY_CLOTHES, 'Clothes'),
-        (CATEGORY_BEAUTY, 'Makeups & Beauty'),
-        (CATEGORY_OTHERS, 'Others'),
+        (CATEGORY_TECHNOLOGY, CATEGORY[CATEGORY_TECHNOLOGY]),
+        (CATEGORY_HOME_AND_GARDEN, CATEGORY[CATEGORY_HOME_AND_GARDEN]),
+        (CATEGORY_PARTS_ACCESSORIES, CATEGORY[CATEGORY_PARTS_ACCESSORIES]),
+        (CATEGORY_TOYS, CATEGORY[CATEGORY_TOYS]),
+        (CATEGORY_MUSIC, CATEGORY[CATEGORY_MUSIC]),
+        (CATEGORY_JEWELRY, CATEGORY[CATEGORY_JEWELRY]),
+        (CATEGORY_CLOTHES, CATEGORY[CATEGORY_CLOTHES]),
+        (CATEGORY_BEAUTY, CATEGORY[CATEGORY_BEAUTY]),
+        (CATEGORY_OTHERS, CATEGORY[CATEGORY_OTHERS]),
     )
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='items', null=True)
     name = models.CharField(max_length=50)
@@ -69,7 +81,11 @@ class Item(models.Model):
     objects = ItemManager()
 
     def get_absolute_url(self):
-        return reverse("items:details", kwargs={"Category": self.category})
+        return "{url}?category={category}".format(url=reverse("items:details", args=(self.pk,)),
+                                                   category=self.get_category_text())
+
+    def get_category_text(self):
+        return CATEGORY[self.category]
 
     def __str__(self):
         return self.name

@@ -59,26 +59,15 @@ class ItemDetailView(DetailView):
 
     # Manage multiple slugs items
     def get_object(self, *args, **kwargs):
-        Category = self.kwargs.get('category')
+        item_id = self.kwargs.get('item_id')
         try:
-            instance = Item.objects.get(Category=Category)
+            instance = Item.objects.get(pk=item_id)
         except Item.DoesNotExist:
             raise Http404("Not found ...")
-        except Item.MultipleObjectsReturned:
-            qs = Item.objects.filter(category=Category)
-            return qs.first()
-        except:
-            raise Http404("No items")
         return instance
-    # TEST TO SEE ITEMS INFORMATION
-    # def get_context_data(self, *args, **kwargs):
-    #     context = super(ItemDetailView, self).get_context_data(*args, **kwargs)
-    #     print(context)
-    #     return context
 
 
 def details(request, item_id=None):
-
     instance = Item.objects.get(pk=item_id)
     if instance is None:
         raise Http404("Product doesn't exist")
