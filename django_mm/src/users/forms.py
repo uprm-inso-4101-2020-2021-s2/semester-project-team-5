@@ -75,8 +75,8 @@ class RegisterForm(forms.ModelForm):
 
     def clean_username(self):
         username = self.cleaned_data.get('username')
-        queryset = User.objects.filter(username=username)
-        if queryset.exists() and self.instance is None:
+        queryset = User.objects.filter(username__iexact=username)
+        if queryset.exists() and not hasattr(self, 'request'):
             raise forms.ValidationError("Username is taken")
         return username
 
