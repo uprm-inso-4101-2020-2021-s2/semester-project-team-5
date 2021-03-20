@@ -44,6 +44,8 @@ def login_page(request, backend=None):
 
 def create_or_update_user(form, user=None):
     if not user:
+        if User.objects.filter(username__iexact=form.cleaned_data.get('username')):
+            raise Exception('Username already taken.')
         user = User.objects.create_user(username=form.cleaned_data.get('username'),
                                         email=form.cleaned_data.get('email'),
                                         password=form.cleaned_data.get('password'))
@@ -76,7 +78,11 @@ def register_page(request):
         'button_text': 'Register'
     }
     if form.is_valid():
-        new_user = create_or_update_user(form)
+        try:
+            new_user = create_or_update_user(form)
+        except Exception as e:
+            messages.error(request, e.__str__())
+            return render(request, "authentication/user_information.html", context)
         login(request, new_user)
         return HttpResponseRedirect("/")
 
