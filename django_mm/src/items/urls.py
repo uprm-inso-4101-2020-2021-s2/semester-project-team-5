@@ -9,5 +9,9 @@ app_name = 'items'
 urlpatterns = [
     path('', views.item_list, name='item_list'),
     path('search/', SearchItemListView.as_view(), name='searching'),
-    re_path(r'^(?P<Category>[\w-]+)/$', ItemDetailView.as_view(), name='details'),
+    path('item/add/', views.add_item, name='add_item'),
+    path('item/<int:item_id>/', ItemDetailView.as_view(), name='details'),
+    path('item/<int:item_id>/delete/', views.delete_item, name='delete_item'),
+    path('selling/', views.selling_items, name='selling_items'),
+    path('category/<int:category>/', views.search_item_by_category, name='search_item_by_category'),
 ]
