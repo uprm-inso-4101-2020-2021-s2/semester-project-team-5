@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from items.models import Item
-from .models import Cart
+from .models import Cart, Order
 
 
 def cart_home(request):
@@ -48,3 +48,25 @@ def cart_update(request):
             cart_obj.items.add(item_obj)
         request.session['cart_total'] = cart_obj.items.count()
     return redirect('cart:cart_home')
+
+
+def checkout_home(request):
+
+    cart_id = request.session.get("cart_id", None)
+    qs = Cart.objects.filter(id=cart_id)
+    if qs.count() == 1:
+        cart_created = False
+        cart_obj = qs.first()
+        if request.user.is_authenticated and cart_obj.user is None:  # once it gets authenticated it changes to that user
+            cart_obj.user = request.user
+            cart_obj.save()
+    else:
+        cart_obj = Cart.objects.new(user=request.user)
+        cart_created = True
+        request.session['cart_id'] = cart_obj.id
+    order_obj = None
+    if cart_created or cart_obj.items.count() == 0:
+        return redirect('cart:cart_home')
+    else:
+        order_obj, new_order_obj = Order.objects.get_or_create(cart=cart_obj)
+    return render(request, "cart/checkout.html", {"order": order_obj})

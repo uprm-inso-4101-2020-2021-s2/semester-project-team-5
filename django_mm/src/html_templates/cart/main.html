@@ -35,9 +35,13 @@
       <td><b>Total: </b>{{cart.total}}</td>
       <td></td>
     </tr>
-
   </tbody>
 </table>
+
+<div class="d-grid gap-2 col-4 mx-auto p-5">
+
+  <td><a class="btn btn-dark" type="button" href='{% url "cart:checkout" %}'><i class="fa fa-file-invoice-dollar"></i>  Checkout</a></td>
+</div>
 
 {% else %}
 <p class='lead'>Cart is empty</p>
