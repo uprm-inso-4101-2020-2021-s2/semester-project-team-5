@@ -77,12 +77,11 @@ class Item(models.Model):
     description = models.TextField()
     price = models.DecimalField(max_digits=10, decimal_places=2, null=False)
     quantity = models.IntegerField(default=1, null=False)
-    category = models.CharField(max_length=20, null=False, choices=CATEGORY_CHOICES)
+    category = models.CharField(max_length=20, null=False, choices=CATEGORY_CHOICES, default='Others')
     objects = ItemManager()
 
     def get_absolute_url(self):
-        return "{url}?category={category}".format(url=reverse("items:details", args=(self.pk,)),
-                                                   category=self.get_category_text())
+        return "{url}?category={category}".format(url=reverse("items:details", args=(self.pk,)), category=self.get_category_text())
 
     def get_category_text(self):
         return CATEGORY[self.category]
@@ -94,7 +93,7 @@ class Item(models.Model):
 class Image(models.Model):
     item = models.ForeignKey(Item, models.CASCADE, related_name='images', null=False)
     # image pillow needed to be installed and it becomes a requirement
-    source = models.ImageField(upload_to=upload_image_path, null=False, blank=False)
+    source = models.ImageField(upload_to=upload_image_path, null=False, blank=True)
 
     def delete(self, using=None, keep_parents=False):
         image_path = settings.MEDIA_ROOT + self.source.url

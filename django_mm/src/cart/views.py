@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from items.models import Item
 from .models import Cart, Order
+from users.forms import LoginForm
 
 
 def cart_home(request):
@@ -46,7 +47,8 @@ def cart_update(request):
             cart_obj.items.remove(item_obj)
         else:
             cart_obj.items.add(item_obj)
-        request.session['cart_total'] = cart_obj.items.count()
+
+            request.session['cart_total'] = cart_obj.items.count()
     return redirect('cart:cart_home')
 
 
@@ -69,4 +71,16 @@ def checkout_home(request):
         return redirect('cart:cart_home')
     else:
         order_obj, new_order_obj = Order.objects.get_or_create(cart=cart_obj)
-    return render(request, "cart/checkout.html", {"order": order_obj})
+        user = request.user
+        billing_profile = None
+        login_form = LoginForm()
+        if user.is_authenticated:
+            billing_profile = None
+
+        context = {
+            "object": order_obj,
+            "billing": billing_profile,
+            "loginform": login_form
+        }
+
+    return render(request, "cart/checkout.html", context)
