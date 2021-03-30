@@ -30,12 +30,13 @@ class CartManager(models.Manager):
 
 
 class Cart(models.Model):
-    user            = models.OneToOneField(User, null=True, blank=True, on_delete=models.CASCADE)
+    user            = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE)
     items           = models.ManyToManyField(Item, blank=True)
     total           = models.DecimalField(default=0.00, max_digits=100, decimal_places=2)
     subtotal        = models.DecimalField(default=0.00, max_digits=100, decimal_places=2)
     updated         = models.DateTimeField(auto_now=True)
-    timestamp       = models.DateTimeField(auto_now_add=True)  # when the cart was created
+    timestamp       = models.DateTimeField(auto_now_add=True)  # when the cart was created+
+    checkout = models.BooleanField(default=False)
 
     objects = CartManager()
 

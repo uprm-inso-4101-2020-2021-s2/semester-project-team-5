@@ -5,6 +5,8 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.http import require_http_methods
+
+from cart.views import get_or_update_cart
 from .forms import LoginForm, RegisterForm, ProfileForm
 from django.contrib.auth import authenticate, login, get_user_model
 from django.contrib import auth
@@ -35,6 +37,9 @@ def login_page(request, backend=None):
         if user is not None:
 
             login(request, user)
+            cart_obj = get_or_update_cart(request, user)
+            request.session['cart_total'] = cart_obj.items.count()
+            request.session['cart_id'] = cart_obj.id
             if is_safe_url(redirect_path, request.get_host()):
                 return redirect(redirect_path)
             else:
@@ -84,6 +89,9 @@ def register_page(request):
     if form.is_valid():
         new_user = create_or_update_user(form)
         login(request, new_user)
+        cart_obj = get_or_update_cart(request, new_user)
+        request.session['cart_total'] = cart_obj.items.count()
+        request.session['cart_id'] = cart_obj.id
         return HttpResponseRedirect("/")
 
     return render(request, "authentication/user_information.html", context)
@@ -91,8 +99,6 @@ def register_page(request):
 
 def logout_page(request):
     auth.logout(request)
-    # return redirect('items/')
-    # logout(request)
     return HttpResponseRedirect("/")
 
 

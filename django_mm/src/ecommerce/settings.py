@@ -30,6 +30,8 @@ ALLOWED_HOSTS = []
 
 AUTH_USER_MODEL = 'users.User'
 
+SESSION_SAVE_EVERY_REQUEST = True
+
 
 # Application definition
 

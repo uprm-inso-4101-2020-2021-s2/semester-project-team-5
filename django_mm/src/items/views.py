@@ -43,18 +43,8 @@ class ItemDetailView(DetailView):
 
     def get_context_data(self, *args, **kwargs):
         context = super(ItemDetailView, self).get_context_data(*args, **kwargs)
-        cart_id = self.request.session.get("cart_id", None)
-        qs = Cart.objects.filter(id=cart_id)
-        if qs.count() == 1:
-            print("Cart ID exists")
-            cart_obj = qs.first()
-            if self.request.user.is_authenticated and cart_obj.user is None:  # once it gets authenticated it changes to that user
-                cart_obj.user = self.request.user
-                cart_obj.save()
-        else:
-            cart_obj = Cart.objects.new(user=self.request.user)
-            self.request.session['cart_id'] = cart_obj.id
-        context['cart'] = cart_obj
+        # cart_obj = Cart.objects.get(pk=self.request.session['cart_id'])
+        # context['cart'] = cart_obj
         return context
 
     # Manage multiple slugs items
