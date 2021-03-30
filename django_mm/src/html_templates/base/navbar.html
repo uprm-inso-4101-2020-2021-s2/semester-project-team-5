@@ -52,7 +52,7 @@
          </li>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{{cart_home}}"> {% if request.session.cart_total %}{{request.session.cart_total}} items {% else %} Empty {% endif %}<i class="fa fa-shopping-cart"></i> </a>
+          <a class="nav-link" href="{{cart_home}}"> {% if request.session.cart_total %} {{request.session.cart_total}}  {% else %} Empty {% endif %} <i class="fa fa-shopping-cart"></i> </a>
         </li>
       </ul>
       {% include 'Items/search-form.html'%}

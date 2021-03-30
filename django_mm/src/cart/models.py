@@ -1,4 +1,5 @@
 from decimal import *
+import math
 import random
 import string
 from django.db import models
@@ -29,7 +30,7 @@ class CartManager(models.Manager):
 
 
 class Cart(models.Model):
-    user            = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE)
+    user            = models.OneToOneField(User, null=True, blank=True, on_delete=models.CASCADE)
     items           = models.ManyToManyField(Item, blank=True)
     total           = models.DecimalField(default=0.00, max_digits=100, decimal_places=2)
     subtotal        = models.DecimalField(default=0.00, max_digits=100, decimal_places=2)
@@ -80,7 +81,7 @@ class Order(models.Model):
     def update_total(self):
         cart_total = self.cart.total
         shipping_total = self.shipping_total
-        total = cart_total + shipping_total
+        total = math.fsum([cart_total, shipping_total]).__format__('.2f')
         print(total)
         self.order_total = total
         self.save()

@@ -9,6 +9,7 @@ from .forms import LoginForm, RegisterForm, ProfileForm
 from django.contrib.auth import authenticate, login, get_user_model
 from django.contrib import auth
 from .models import Location
+from django.utils.http import is_safe_url
 from django.contrib.auth import logout
 
 User = get_user_model()
@@ -22,20 +23,25 @@ def login_page(request, backend=None):
     }
 
     # print(request.user.is_authenticated)
+    # next url, after login in
+    next_ = request.GET.get('next')
+    next_post = request.POST.get('next')
+    redirect_path = next_ or next_post or None
     if form.is_valid():
-        # print(form.cleaned_data)
+
         username = form.cleaned_data.get('username')
         password = form.cleaned_data.get('password')
         user = authenticate(request, username=username, password=password)
         if user is not None:
-            # print(request.user.is_authenticated)
+
             login(request, user)
-            # Redirect to a success page.
-            context['form'] = LoginForm()
-            if 'next' in request.GET:
-                return redirect(request.GET['next'])
+            if is_safe_url(redirect_path, request.get_host()):
+                return redirect(redirect_path)
             else:
-                return redirect("/")
+                if 'next' in request.GET:
+                    return redirect(request.GET['next'])
+                else:
+                    return redirect("/")
         else:
             # Return an 'invalid login' error message.
             print("Error couldn't log in")
