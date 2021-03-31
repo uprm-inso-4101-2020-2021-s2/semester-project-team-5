@@ -86,7 +86,8 @@ def checkout_home(request):
     context = {
         'cart': cart,
         'title': 'Checkout',
-        'update_url': reverse('cart:checkout')
+        'update_url': reverse('cart:checkout'),
+        'checkout': True
     }
     # if request.method == 'POST':
 
