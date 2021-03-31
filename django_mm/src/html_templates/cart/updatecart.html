@@ -1,4 +1,4 @@
-   <form method='POST' action="{% url 'cart:cart_update' %}" class="form"> {% csrf_token %}
+   <form method='POST' action="{% url 'cart:cart_update' %}{% if cart_view %}?remove=True{% endif %}" class="form"> {% csrf_token %}
            <input type='hidden' name="item"  value="{{item.id}}"/>
           {% if inside_cart%}
 

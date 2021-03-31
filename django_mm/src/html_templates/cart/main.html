@@ -1,4 +1,5 @@
 {% extends "base/base.html" %}
+{% load quantity_tag %}
 
 {% block content %}
 <h1 class="mb-5">{{title}}</h1>
@@ -20,7 +21,7 @@
       {% include 'cart/updatecart.html' with item=item cart=cart inside_cart=True %}
       </td>
       <td>{{item.price}}</td>
-      <td>{{item.quantity}}</td>
+      <td>{% quantity cart item %}</td>
     </tr>
     {% endfor %}
     <tr>
