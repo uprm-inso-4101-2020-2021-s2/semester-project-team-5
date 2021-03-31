@@ -6,8 +6,6 @@ from items.models import Item
 from .models import Cart, cart_item
 
 
-
-
 def get_or_update_cart(request, user):
     cart_obj = None
     qs = Cart.objects.filter(user_id=user.pk, checkout=False)
@@ -30,7 +28,6 @@ def get_or_update_cart(request, user):
     return cart_obj
 
 
-# @login_required(login_url='/users/login/')
 def cart_home(request):
     context = {
         "title": 'Cart',
@@ -66,9 +63,12 @@ def cart_update(request):
                 query.quantity = query.quantity + 1
                 query.save()
         else:
-            cart_obj.cart_cart.add(item_obj)
+            add_item = cart_item(cart_id=request.session['cart_id'], item_id=item_id)
+            add_item.save()
+
         request.session['cart_total'] = cart_obj.items.count()
     return redirect('cart:cart_home')
+
 
 @require_http_methods(['PUT', 'GET'])
 def checkout_home(request):
@@ -91,31 +91,3 @@ def checkout_home(request):
     # if request.method == 'POST':
 
     return render(request, "cart/checkout.html", context)
-    # if qs.count() == 1:
-    #     cart_created = False
-    #     cart_obj = qs.first()
-    #     if request.user.is_authenticated and cart_obj.user is None:  # once it gets authenticated it changes to that user
-    #         cart_obj.user = request.user
-    #         cart_obj.save()
-    # else:
-    #     cart_obj = Cart.objects.new(user=request.user)
-    #     cart_created = True
-    #     request.session['cart_id'] = cart_obj.id
-    # order_obj = None
-    # if cart_created or cart_obj.items.count() == 0:
-    #     return redirect('cart:cart_home')
-    # else:
-    #     order_obj, new_order_obj = Order.objects.get_or_create(cart=cart_obj)
-    #     user = request.user
-    #     # billing_profile =
-    #     # login_form = LoginForm()
-    #     # if user.is_authenticated:
-    #     #     billing_profile = None
-    #
-    #     context = {
-    #         "object": order_obj,
-    #         "billing": billing_profile,
-    #         "loginform": login_form
-    #     }
-
-    # return render(request, "cart/checkout.html", context)
