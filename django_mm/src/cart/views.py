@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.views.decorators.http import require_http_methods
@@ -12,13 +13,23 @@ def get_or_update_cart(request, user):
     if qs.exists():
         cart_obj = qs.last()
         if request.session.get('cart_id', None) is not None:
+            user_cart_item_list = CartItem.objects.filter(cart_id=cart_obj.pk).values_list('item_id', flat=True)
+            for item_cart in CartItem.objects.filter(cart_id=request.session['cart_id']):
+                if item_cart.item_id in user_cart_item_list:
+                    updated_item = CartItem.objects.get(cart_id=cart_obj.pk, item_id=item_cart.item_id)
+                    updated_item.quantity = item_cart.quantity + updated_item.quantity
+                    updated_item.save()
+                else:
+                    added_item = CartItem(cart_id=cart_obj.pk, item_id=item_cart.item_id)
+                    added_item.quantity = item_cart.quantity
+                    added_item.save()
+
             session_cart = Cart.objects.get(pk=request.session['cart_id'])
-            for item in session_cart.items.all():
-                cart_obj.items.add(item)
             session_cart.delete()
+
     elif request.session.get('cart_id', None) is not None:
-       cart_obj = Cart.objects.get(pk=request.session['cart_id'])
-       if cart_obj.user is None:
+        cart_obj = Cart.objects.get(pk=request.session['cart_id'])
+        if cart_obj.user is None:
             cart_obj.user_id = user.pk
             cart_obj.save()
 
@@ -70,6 +81,7 @@ def cart_update(request):
     return redirect('cart:cart_home')
 
 
+@login_required(login_url='/users/login/')
 @require_http_methods(['PUT', 'GET'])
 def checkout_home(request):
     if request.is_ajax():
@@ -89,6 +101,4 @@ def checkout_home(request):
         'update_url': reverse('cart:checkout'),
         'checkout': True
     }
-    # if request.method == 'POST':
-
     return render(request, "cart/checkout.html", context)
