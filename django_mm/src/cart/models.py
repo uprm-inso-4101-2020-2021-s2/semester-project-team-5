@@ -31,7 +31,7 @@ class CartManager(models.Manager):
 
 class Cart(models.Model):
     user            = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE)
-    items           = models.ManyToManyField(Item, through='cart_item', blank=True)
+    items           = models.ManyToManyField(Item, through='CartItem', blank=True)
     total           = models.DecimalField(default=0.00, max_digits=100, decimal_places=2)
     subtotal        = models.DecimalField(default=0.00, max_digits=100, decimal_places=2)
     updated         = models.DateTimeField(auto_now=True)
@@ -40,28 +40,22 @@ class Cart(models.Model):
 
     objects = CartManager()
 
+    def update_total(self):
+        items_qs = CartItem.objects.filter(cart_id=self.pk).values_list('quantity', 'item__price')
+        total = 0
+        for quantity, price in items_qs:
+            total += price * quantity
+        self.subtotal = total
+        self.save()
+
     def __str__(self):
         return str(self.id)
 
 
-class cart_item(models.Model):
+class CartItem(models.Model):
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE, related_name='cart_cart')
     item = models.ForeignKey(Item, on_delete=models.CASCADE, related_name='cart_items')
     quantity = models.IntegerField(default=1)
-
-# method to recalculate price after removing or adding items
-def m2m_changed_cart_receiver(sender, instance, action, *args, **kwargs):
-    if action == 'post_add' or action == 'post_remove' or action == 'post_clear':
-        items = instance.items.all()
-        total = 0
-        for eachitem in items:
-            total += eachitem.price
-        instance.subtotal = total
-        instance.save()
-
-
-# m2m_changed.connect(m2m_changed_cart_receiver, sender=Cart.items.through)
-
 
 def pre_save_cart_receiver(sender, instance, *args, **kwargs):
     # Puerto Rico tax is 10.5%

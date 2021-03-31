@@ -3,7 +3,7 @@ from django.urls import reverse
 from django.views.decorators.http import require_http_methods
 
 from items.models import Item
-from .models import Cart, cart_item
+from .models import Cart, CartItem
 
 
 def get_or_update_cart(request, user):
@@ -63,9 +63,9 @@ def cart_update(request):
                 query.quantity = query.quantity + 1
                 query.save()
         else:
-            add_item = cart_item(cart_id=request.session['cart_id'], item_id=item_id)
+            add_item = CartItem(cart_id=request.session['cart_id'], item_id=item_id)
             add_item.save()
-
+        cart_obj.update_total()
         request.session['cart_total'] = cart_obj.items.count()
     return redirect('cart:cart_home')
 
