@@ -50,6 +50,22 @@
             <li><a class="dropdown-item" href="{% url 'items:search_item_by_category' category=8 %}?name=others">Others</a></li>
           </ul>
          </li>
+         {% if request.user.is_authenticated %}
+
+         <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown2" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+           Account
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="{% url 'users:information_page' user_pk=request.user.pk %}">Profile</a></li>
+            <li><a class="dropdown-item" href="{% url 'items:add_item' %}">Add item to sell</a></li>
+            <li><a class="dropdown-item" href="{% url 'items:selling_items' %}">Selling items</a></li>
+          </ul>
+         </li>
+         {% endif %}
+
+
+
         </li>
         <li class="nav-item">
           <a class="nav-link" href="{{cart_home}}"> {% if request.session.cart_total %} {{request.session.cart_total}}  {% else %} Empty {% endif %} <i class="fa fa-shopping-cart"></i> </a>
