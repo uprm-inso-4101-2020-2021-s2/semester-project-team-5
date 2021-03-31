@@ -8,7 +8,7 @@ from django.views.decorators.http import require_http_methods
 from django.views.generic import DetailView, ListView
 
 from .forms import AddItemForm
-from .models import Item, Image
+from .models import Item, Image, CATEGORY
 from cart.models import Cart
 
 
@@ -99,7 +99,8 @@ def add_item(request):
 def selling_items(request):
     queryset = Item.objects.filter(owner_id=request.user.pk)
     context = {
-        'object_list': queryset
+        'object_list': queryset,
+        'title': "Selling items by {username}".format(username=request.user.username)
     }
     return render(request, "Items/item_list.html", context)
 
@@ -108,7 +109,8 @@ def selling_items(request):
 def search_item_by_category(request, category):
     queryset = Item.objects.filter(category=category)
     context = {
-        'object_list': queryset
+        'object_list': queryset,
+        'title': CATEGORY[str(category)],
     }
     return render(request, "Items/item_list.html", context)
 

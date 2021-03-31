@@ -11,12 +11,12 @@
         <div class = 'row'>
 
     {% if object_list.exists%}
+        <H2>{{title}}</H2>
         {% for item in object_list %}
-
-         <div class='col-sm-4'>
-         <br><br><br>
-        {% include "items/card.html" with instance=item%}
-         </div>
+             <div class='col-sm-4'>
+             <br><br><br>
+            {% include "items/card.html" with instance=item%}
+             </div>
         {% endfor %}
     {% else %}
             <H2>No items available</H2>
