@@ -1,7 +1,7 @@
 {% extends "base/base.html" %}
 
 {% block content %}
-<h1 class="mb-5">Cart</h1>
+<h1 class="mb-5">{{title}}</h1>
 {% if cart.items.exists %}
 <table class="table table-dark table-striped">
   <thead>
@@ -38,12 +38,15 @@
   </tbody>
 </table>
 
+{% if not checkout %}
 <div class="d-grid gap-2 col-4 mx-auto p-5">
-
   <td><a class="btn btn-dark" type="button" href='{% url "cart:checkout" %}'><i class="fa fa-file-invoice-dollar"></i>  Checkout</a></td>
-</div>
-
-{% else %}
-<p class='lead'>Cart is empty</p>
 {% endif %}
-{% endblock %}
+  {% else %}
+<p class='lead'>Cart is empty</p>
+
+{% endif %}
+{% block checkout %}
+  {% endblock %}
+  {% endblock %}
+</div>

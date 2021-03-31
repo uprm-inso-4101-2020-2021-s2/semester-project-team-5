@@ -1,16 +1,68 @@
-{% extends "base/base.html" %}
+{% extends "cart/main.html" %}
 
-{% block content %}
-{% if not billing %}
-    <div class='col-12 col-md-6'>
-        {% include 'base/form.html' with form=login_form next=request.build_absolute_uri %}
-    </div>
+{% block checkout %}
+<p>Shipping address: {{ cart.user.locations.last}}</p>
+<head>
+    <!-- Add meta tags for mobile and IE -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title> PayPal Smart Payment Buttons Integration | Client Demo </title>
+</head>
 
-{% else %}
-<h1>Checkout</h1>
+<script src="https://www.paypal.com/sdk/js?client-id=test&currency=USD"></script>
 
-<p>Order Number: {{order.order_id}}</p>
-<p>Order total: ${{order.order_total}}</p>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 
-{% endif %}
+<body>
+    <!-- Set up a container element for the button -->
+    <div id="paypal-button-container"></div>
+
+
+    <script>
+        // Render the PayPal button into #paypal-button-container
+        paypal.Buttons({
+
+            // Set up the transaction
+            createOrder: function(data, actions) {
+                return actions.order.create({
+                    purchase_units: [{
+                        amount: {
+                            value: "{{cart.total}}"
+                        }
+                    }]
+                });
+            },
+
+            // Finalize the transaction
+            onApprove: function(data, actions) {
+                return actions.order.capture().then(function(details) {
+                    // Show a success message to the buyer
+                    alert('Transaction completed by ' + details.payer.name.given_name + '!');
+                    $.ajax({
+                        url: "{% url 'cart:checkout' %}",
+                        method: 'PUT',
+                        dataType: 'json',
+                        data: {'cart_id': '{{cart.pk}}'},
+                        success: function(response) {}
+                    })
+                });
+            }
+
+
+        }).render('#paypal-button-container');
+    </script>
+</body>
+
+<!--{% if not billing %}-->
+<!--    <div class='col-12 col-md-6'>-->
+<!--        {% include 'base/form.html' with form=login_form next=request.build_absolute_uri %}-->
+<!--    </div>-->
+
+<!--{% else %}-->
+<!--<h1>Checkout</h1>-->
+
+<!--<p>Order Number: {{order.order_id}}</p>-->
+<!--<p>Order total: ${{order.order_total}}</p>-->
+
+<!--{% endif %}-->
 {% endblock %}

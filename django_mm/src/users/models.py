@@ -61,3 +61,6 @@ class Location(models.Model):
     address = models.TextField(null=False, blank=False)
     city = models.CharField(max_length=15, null=False, blank=False)
     zip_code = models.CharField(max_length=10, null=False, blank=False)
+
+    def __str__(self):
+        return ('%s %s %s' % (self.address, self.city, self.zip_code) )

@@ -31,7 +31,7 @@ class CartManager(models.Manager):
 
 class Cart(models.Model):
     user            = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE)
-    items           = models.ManyToManyField(Item, blank=True)
+    items           = models.ManyToManyField(Item, through='cart_item', blank=True)
     total           = models.DecimalField(default=0.00, max_digits=100, decimal_places=2)
     subtotal        = models.DecimalField(default=0.00, max_digits=100, decimal_places=2)
     updated         = models.DateTimeField(auto_now=True)
@@ -43,6 +43,11 @@ class Cart(models.Model):
     def __str__(self):
         return str(self.id)
 
+
+class cart_item(models.Model):
+    cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
+    item = models.ForeignKey(Item, on_delete=models.CASCADE)
+    quantity = models.IntegerField(default=1)
 
 # method to recalculate price after removing or adding items
 def m2m_changed_cart_receiver(sender, instance, action, *args, **kwargs):

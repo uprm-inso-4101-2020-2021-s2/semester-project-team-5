@@ -1,5 +1,9 @@
 from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
 from django.shortcuts import render, redirect
+from django.urls import reverse
+from django.views.decorators.http import require_http_methods
+
 from items.models import Item
 from .models import Cart, Order
 from users.forms import LoginForm
@@ -31,7 +35,12 @@ def get_or_update_cart(request, user):
 def cart_home(request):
     cart_obj = Cart.objects.get(pk=request.session['cart_id'])
     request.session['cart_total'] = cart_obj.items.count()
-    return render(request, "cart/main.html", {"cart": cart_obj})
+    context = {
+        "cart": cart_obj,
+        "title": 'Cart',
+        'cart_view': True,
+    }
+    return render(request, "cart/main.html", context)
 
 
 def cart_update(request):
@@ -56,36 +65,52 @@ def cart_update(request):
         request.session['cart_total'] = cart_obj.items.count()
     return redirect('cart:cart_home')
 
-
+@require_http_methods(['PUT', 'GET'])
 def checkout_home(request):
+    if request.is_ajax():
+        cart = Cart.objects.get(pk=request.session['cart_id'])
+        cart.checkout = True
+        cart.save()
 
-    cart_id = request.session.get("cart_id", None)
-    qs = Cart.objects.filter(id=cart_id)
-    if qs.count() == 1:
-        cart_created = False
-        cart_obj = qs.first()
-        if request.user.is_authenticated and cart_obj.user is None:  # once it gets authenticated it changes to that user
-            cart_obj.user = request.user
-            cart_obj.save()
-    else:
-        cart_obj = Cart.objects.new(user=request.user)
-        cart_created = True
-        request.session['cart_id'] = cart_obj.id
-    order_obj = None
-    if cart_created or cart_obj.items.count() == 0:
+        new_cart = Cart(user_id=request.user.pk)
+        new_cart.save()
+        request.session['cart_id'] = new_cart.pk
         return redirect('cart:cart_home')
-    else:
-        order_obj, new_order_obj = Order.objects.get_or_create(cart=cart_obj)
-        user = request.user
-        # billing_profile =
-        # login_form = LoginForm()
-        # if user.is_authenticated:
-        #     billing_profile = None
 
-        context = {
-            "object": order_obj,
-            "billing": billing_profile,
-            "loginform": login_form
-        }
+    cart = Cart.objects.get(pk=request.session['cart_id'])
+    context = {
+        'cart': cart,
+        'title': 'Checkout',
+        'update_url': reverse('cart:checkout')
+    }
+    # if request.method == 'POST':
 
     return render(request, "cart/checkout.html", context)
+    # if qs.count() == 1:
+    #     cart_created = False
+    #     cart_obj = qs.first()
+    #     if request.user.is_authenticated and cart_obj.user is None:  # once it gets authenticated it changes to that user
+    #         cart_obj.user = request.user
+    #         cart_obj.save()
+    # else:
+    #     cart_obj = Cart.objects.new(user=request.user)
+    #     cart_created = True
+    #     request.session['cart_id'] = cart_obj.id
+    # order_obj = None
+    # if cart_created or cart_obj.items.count() == 0:
+    #     return redirect('cart:cart_home')
+    # else:
+    #     order_obj, new_order_obj = Order.objects.get_or_create(cart=cart_obj)
+    #     user = request.user
+    #     # billing_profile =
+    #     # login_form = LoginForm()
+    #     # if user.is_authenticated:
+    #     #     billing_profile = None
+    #
+    #     context = {
+    #         "object": order_obj,
+    #         "billing": billing_profile,
+    #         "loginform": login_form
+    #     }
+
+    # return render(request, "cart/checkout.html", context)
