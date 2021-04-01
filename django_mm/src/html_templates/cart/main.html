@@ -11,6 +11,9 @@
       <th scope="col">Item Name</th>
       <th scope="col">Item Price</th>
       <th scope="col">Quantity</th>
+      {% if readonly %}
+        <th scope="col">Seller</th>
+      {% endif %}
     </tr>
   </thead>
   <tbody>
@@ -24,6 +27,9 @@
       </td>
       <td>${{item.price}}</td>
       <td>{% quantity cart item %}</td>
+      {% if readonly %}
+        <td>{{ item.owner.username}}</td>
+      {% endif %}
     </tr>
     {% endfor %}
     <tr>
