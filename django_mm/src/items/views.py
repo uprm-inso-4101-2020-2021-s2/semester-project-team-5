@@ -43,8 +43,10 @@ class ItemDetailView(DetailView):
 
     def get_context_data(self, *args, **kwargs):
         context = super(ItemDetailView, self).get_context_data(*args, **kwargs)
-        # cart_obj = Cart.objects.get(pk=self.request.session['cart_id'])
-        # context['cart'] = cart_obj
+        if self.request.user.is_authenticated and (self.object.owner_id == self.request.user.id):
+            context.update({'is_owner': True})
+        else:
+            context.update({'is_owner': False})
         return context
 
     # Manage multiple slugs items
@@ -87,7 +89,7 @@ def add_item(request):
             for image in images:
                 image = Image(item_id=item.id, source=image)
                 image.save()
-
+        return HttpResponseRedirect(reverse('items:selling_items'))
     context = {
         'form': form,
     }
@@ -122,7 +124,6 @@ def delete_item(request, item_id):
     item_name = item.name
     if request.user.id == item.owner_id:
         item.delete()
-        messages.success(request, 'Item {name} deleted successfully'.format(name=item_name))
         return HttpResponseRedirect(reverse('items:selling_items'))
 
     messages.error(request, 'Invalid request'.format(name=item_name))

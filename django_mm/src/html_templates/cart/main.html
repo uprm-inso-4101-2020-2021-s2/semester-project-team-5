@@ -18,33 +18,35 @@
     <tr>
       <th scope="row" class="table-dark">{{ forloop.counter }}</th>
       <td><a href="{{item.get_absolute_url}}">{{item.name}}</a>
-      {% include 'cart/updatecart.html' with item=item cart=cart inside_cart=True %}
+        {% if not readonly %}
+          {% include 'cart/updatecart.html' with item=item cart=cart inside_cart=True %}
+        {% endif %}
       </td>
-      <td>{{item.price}}</td>
+      <td>${{item.price}}</td>
       <td>{% quantity cart item %}</td>
     </tr>
     {% endfor %}
     <tr>
       <th scope="row"></th>
       <td></td>
-      <td><b>Subtotal: </b>{{cart.subtotal}}</td>
+      <td><b>Subtotal: </b>${{cart.subtotal}}</td>
       <td></td>
     </tr>
     <tr>
       <td scope="row"></td>
       <td></td>
-      <td><b>Total: </b>{{cart.total}}</td>
+      <td><b>Total: </b>${{cart.total}}</td>
       <td></td>
     </tr>
   </tbody>
 </table>
 
-{% if not checkout %}
-<div class="d-grid gap-2 col-4 mx-auto p-5">
-  <td><a class="btn btn-dark" type="button" href='{% url "cart:checkout" %}'><i class="fa fa-file-invoice-dollar"></i>  Checkout</a></td>
-{% endif %}
-  {% else %}
-<p class='lead'>Cart is empty</p>
+  {% if not checkout and not readonly%}
+  <div class="d-grid gap-2 col-4 mx-auto p-5">
+    <td><a class="btn btn-dark" type="button" href='{% url "cart:checkout" %}'><i class="fa fa-file-invoice-dollar"></i>  Checkout</a></td>
+  {% endif %}
+{% else %}
+  <p class='lead'>Cart is empty</p>
 
 {% endif %}
 {% block checkout %}

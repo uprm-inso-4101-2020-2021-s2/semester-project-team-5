@@ -60,12 +60,10 @@
             <li><a class="dropdown-item" href="{% url 'users:information_page' user_pk=request.user.pk %}">Profile</a></li>
             <li><a class="dropdown-item" href="{% url 'items:add_item' %}">Add item to sell</a></li>
             <li><a class="dropdown-item" href="{% url 'items:selling_items' %}">Selling items</a></li>
+            <li><a class="dropdown-item" href="{% url 'cart:orders' %}">Orders receipt</a></li>
           </ul>
          </li>
          {% endif %}
-
-
-
         </li>
         <li class="nav-item">
           <a class="nav-link" href="{{cart_home}}"> {% if request.session.cart_total %} {{request.session.cart_total}}  {% else %} Empty {% endif %} <i class="fa fa-shopping-cart"></i> </a>

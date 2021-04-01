@@ -4,6 +4,8 @@ import random
 import string
 from django.db import models
 from django.conf import settings
+from django.urls import reverse
+
 from items.models import Item
 from django.db.models.signals import pre_save, post_save, m2m_changed
 from django.utils.text import slugify
@@ -47,6 +49,9 @@ class Cart(models.Model):
             total += price * quantity
         self.subtotal = total
         self.save()
+
+    def get_absolute_url(self):
+        return reverse('cart:orders_details', args=(self.pk,))
 
     def __str__(self):
         return str(self.id)
