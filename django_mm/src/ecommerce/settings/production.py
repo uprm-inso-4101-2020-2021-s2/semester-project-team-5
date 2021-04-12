@@ -27,7 +27,7 @@ SECRET_KEY = '#vqqi26pl1&g9b=2fc89413-lir7s4*g&3nka#&u2jj=ct#s#^'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['.herokuapp.com']
+ALLOWED_HOSTS = ['https://wall-ecommerce.herokuapp.com/']
 
 AUTH_USER_MODEL = 'users.User'
 
@@ -150,6 +150,7 @@ STATICFILES_DIRS = [
     ]
 
 # staticServer emulation
+
 STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'static_root')
 
 
