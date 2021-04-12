@@ -1,0 +1,17 @@
+   <form method='POST' action="{% url 'cart:cart_update' %}{% if cart_view %}?remove=True{% endif %}" class="form"> {% csrf_token %}
+           <input type='hidden' name="item"  value="{{item.id}}"/>
+          {% if inside_cart%}
+
+          {% if cart_view %}
+             <button style="position:relative;" type="submit" class="btn btn-light btn-sm">Remove</button>
+            {% endif %}
+          {% else %}
+              {% if item in cart.items.all %}
+                <button style="position:relative; left:25px;  color:white" type="submit" class="btn btn-primary">Remove</button>
+              {% else %}
+                <button type="submit" style="position:relative; color:white" class="btn btn-primary">Add to cart</button>
+              {% endif %}
+          {% endif %}
+          </div>
+          </div>
+   </form>

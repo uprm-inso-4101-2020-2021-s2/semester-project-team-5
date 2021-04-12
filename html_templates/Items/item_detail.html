@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+{% extends "base/base.html" %}
+
+
+{% block content %}
+<div class="row">
+ <div class="col-12">
+   <p>{{item.name}}<br></p>
+   <p>{{item.description}}<br></p>
+   <p>${{item.price}}<br></p>
+ <img src='{{item.images.first.source.url}}' style="width:300px;height:300px;">
+ </div>
+
+
+  <div style = "position:relative; left:90px;" class='col-12 col-md-6'>
+
+    {% include 'cart/updatecart.html' with item=object cart=cart %}
+      {% if is_owner %}
+        <form action="{% url 'items:delete_item' item_id=item.id %}">
+            <button type="submit" style="position:center; color:white" class="btn btn-primary">Remove</button>
+        </form>
+      {% endif %}
+
+    </div>
+  </div>
+{% endblock %}

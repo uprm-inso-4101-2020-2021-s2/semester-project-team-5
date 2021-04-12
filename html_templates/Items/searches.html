@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+{% extends "base/base.html" %}
+{% block content %}
+ <div class = 'row mb-3'>
+    {% if query %}
+            <div class="col-12">
+                Searched for {{ query }}
+                <hr/>
+            </div>
+
+             {% else %}
+                <div class='col-12 col-md-8 mx-auto py-4'>
+                 {% include 'Items/search-form.html'%}
+                </div>
+                <div class="col-12">
+                    <hr>
+                </div>
+            {% endif %}
+ </div>
+    <div class='container'>
+        <div class = 'row'>
+
+
+    {% for item in object_list %}
+
+     <div class='col-sm-4'>
+     <br><br><br>
+    {% include "items/card.html" with instance=item%}
+     </div>
+    {% endfor %}
+        </div>
+    </div>
+{% endblock %}
