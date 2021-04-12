@@ -28,6 +28,4 @@ singledispatch==3.4.0.3
 six==1.15.0
 typing==3.7.4.3
 virtualenv==20.4.0
-xattr==0.6.4
-zipp==1.2.0
-zope.interface==4.1.1
+
