@@ -24,7 +24,6 @@ pyOpenSSL==0.13.1
 pyparsing==2.0.1
 python-dateutil==1.5
 pytz==2013.7
-scandir==1.10.0
 scipy==0.13.0b1
 singledispatch==3.4.0.3
 six==1.15.0
