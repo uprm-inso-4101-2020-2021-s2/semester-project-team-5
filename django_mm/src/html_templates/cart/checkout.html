@@ -3,7 +3,8 @@
 {% block checkout %}
 {% if cart.items.exists %}
 
-<H3 style="text-align: center">Shipping address: {{ cart.user.locations.last}}</H3>
+<H3 style="margin-left: 30%">Shipping address:</H3>
+<H3 style="margin-left: 30%">{{cart.user}}<br>{{ cart.user.locations.last}}</H3>
 <br><br>
 <head>
     <!-- Add meta tags for mobile and IE -->
