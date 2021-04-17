@@ -47,20 +47,21 @@ class RegisterForm(forms.ModelForm):
             "class": "form-control",
             "placeholder": "password"
         }))
-    confirmation_pass = forms.CharField(label="Confirm Password", widget=forms.PasswordInput(   attrs={
-            # "class": "form-control",
+    confirmation_pass = forms.CharField(label="Confirm Password", widget=forms.PasswordInput(
+        attrs={
+            "class": "form-control",
             "placeholder": "Confirm password"
         }))
     phone = forms.CharField(label='Phone number', required=False, widget=forms.TextInput(
-        attrs ={
-        # "class": "form-control",
+        attrs={
+        "class": "form-control",
         "placeholder": "xxx-xxx-xxxx"
     }))
     address = forms.CharField(label="Address", required=True, widget=forms.TextInput(
         attrs={
         "class": "form-control",
         "placeholder": "neighborhood/apartment name, number, street",
-        "size": '40'
+        "width": '40'
     }))
     city = forms.CharField(label="City", max_length=15, required=True, widget=forms.TextInput(
         attrs ={
@@ -102,13 +103,12 @@ class RegisterForm(forms.ModelForm):
             return phone_number
         raise forms.ValidationError("Invalid phone number")
 
-    def clean(self):
-        data = self.cleaned_data
-        password = self.cleaned_data.get('password')
-        confirmation_pass = self.cleaned_data.get('confirmation_pass')
+    def clean_password(self):
+        password = self.data.get('password')
+        confirmation_pass = self.data.get('confirmation_pass')
         if password != confirmation_pass:
             raise forms.ValidationError("Passwords do not match")
-        return data
+        return password
 
     class Meta:
         model = User
