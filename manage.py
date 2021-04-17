@@ -6,7 +6,8 @@ import sys
 
 def main():
     """Run administrative tasks."""
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'ecommerce.settings')
+    # TODO Need to change settings for production when deploying to Heroku
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'ecommerce.settings.base')
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:
