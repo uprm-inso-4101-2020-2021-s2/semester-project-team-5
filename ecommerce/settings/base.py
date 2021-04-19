@@ -25,6 +25,9 @@ SECRET_KEY = '#vqqi26pl1&g9b=2fc89413-lir7s4*g&3nka#&u2jj=ct#s#^'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+# Django warnings to set default auto field
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
 
 ALLOWED_HOSTS = []
 
@@ -42,7 +45,8 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
+    # third party (aws)
+    'storages',
     # apps made by team5
     'items',
     'users',
@@ -149,6 +153,8 @@ STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'static_root')
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'static_root', 'media_root')
 
+from ecommerce.aws.conf import *
+
 
 CORS_REPLACE_HTTPS_REFERER      = False
 HOST_SCHEME                     = "http://"
@@ -159,3 +165,4 @@ CSRF_COOKIE_SECURE              = False
 SECURE_HSTS_SECONDS             = None
 SECURE_HSTS_INCLUDE_SUBDOMAINS  = False
 SECURE_FRAME_DENY               = False
+

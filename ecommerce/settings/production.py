@@ -43,7 +43,8 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
+    # third party (aws)
+    'storages',
     # apps made by team5
     'items',
     'users',
