@@ -1,56 +1,28 @@
-{% extends "base/base.html" %}
-
-{% block content %}
+<!DOCTYPE html>
+<html>
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'css_templates/userInformationStyle.css' %}">
+<body>
+<div>
+    <div class="register">
         <h1> {{page_name}} </h1>
         <form method='POST'> {% csrf_token %}
             {% for message in messages %}
-                <li >{{ message }}</li>
+                <li class="success" {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
             {% endfor %}
             {% for field in form%}
-            <div class="form-group {%if field.errors %}has-error{%endif%}">
-                {%if field.errors %}
-                    {{field.errors}}
-                {%endif%}
-                 <p>
+                {% for error in field.errors %}
+                     <p class="error">{{ error }}</p>
+                {% endfor %}
+                <p>
                     {{field.label_tag}}<br>
                     {{field}}
                 </p>
-            </div>
-
             {% endfor %}
             <br><br>
-            <button type= 'submit' class='btn-btn-primary'>{{button_text}}</button>
+            <button type= 'submit' class='button'>{{button_text}}</button>
         </form>
     </div>
-{% endblock %}
-
-<!--<!DOCTYPE html>-->
-<!--<html>-->
-<!--{% load static %}-->
-<!--<link rel="stylesheet" type="text/css" href="{% static 'css_templates/userInformationStyle.css' %}">-->
-<!--<body>-->
-<!--<div>-->
-<!--    <div class="register">-->
-<!--        <h1> {{page_name}} </h1>-->
-<!--        <form method='POST'> {% csrf_token %}-->
-<!--            {% for message in messages %}-->
-<!--                <li class="success" {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>-->
-<!--            {% endfor %}-->
-<!--            {% for field in form%}-->
-<!--                {% for error in field.errors %}-->
-<!--                     <p class="error">{{ error }}</p>-->
-<!--                {% endfor %}-->
-<!--                <p>-->
-<!--                    {{field.label_tag}}<br>-->
-<!--                    {{field}}-->
-<!--                </p>-->
-<!--            {% endfor %}-->
-<!--            <br><br>-->
-<!--            <button type= 'submit' class='button'>{{button_text}}</button>-->
-<!--        </form>-->
-<!--    </div>-->
-<!--</div>-->
-<!--</body>-->
-<!--</html>-->
-
-
+</div>
+</body>
+</html>

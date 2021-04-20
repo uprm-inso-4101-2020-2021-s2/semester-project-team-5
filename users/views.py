@@ -35,8 +35,7 @@ def login_page(request, backend=None):
             else:
                 return redirect("/")
         else:
-            # Return an 'invalid login' error message.
-            print("Error couldn't log in")
+            context.update({'error': 'Invalid credentials.'})
     return render(request, "authentication/login.html", context)
 
 

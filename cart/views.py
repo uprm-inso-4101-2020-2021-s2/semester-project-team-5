@@ -88,6 +88,9 @@ def cart_update(request):
 def checkout_home(request):
     if request.is_ajax():
         cart = Cart.objects.get(pk=request.session['cart_id'])
+        for obj in cart.cart_cart.all():
+            obj.item.quantity = obj.item.quantity - obj.quantity
+            obj.item.save()
         cart.checkout = True
         cart.updated = datetime.datetime.now()
         cart.save()
