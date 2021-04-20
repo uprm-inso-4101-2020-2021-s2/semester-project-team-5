@@ -45,7 +45,9 @@
                         method: 'PUT',
                         dataType: 'json',
                         data: {'cart_id': '{{cart.pk}}'},
-                        success: function(response) {}
+                        success: function(response) {
+                          window.location.href = '/';
+                        }
                     });
                     alert('Transaction completed by ' + details.payer.name.given_name + '!');
 

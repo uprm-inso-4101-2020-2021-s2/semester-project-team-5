@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.views.decorators.http import require_http_methods
-
+from django.http import HttpResponse
 from items.models import Item
 from .models import Cart, CartItem
 
@@ -91,17 +91,15 @@ def checkout_home(request):
         cart.checkout = True
         cart.updated = datetime.datetime.now()
         cart.save()
-
         new_cart = Cart(user_id=request.user.pk)
         new_cart.save()
         request.session['cart_id'] = new_cart.pk
-        return redirect('cart:cart_home')
+        return HttpResponse(status=200)
 
     cart = Cart.objects.get(pk=request.session['cart_id'])
     context = {
         'cart': cart,
         'title': 'Checkout',
-        'update_url': reverse('cart:checkout'),
         'checkout': True
     }
     return render(request, "cart/checkout.html", context)
