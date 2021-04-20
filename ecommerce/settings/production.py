@@ -18,8 +18,6 @@ import dj_database_url
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 
-
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
@@ -154,11 +152,7 @@ STATICFILES_DIRS = [
 
 # staticServer emulation
 
-STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'static_root')
 
-
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'static_root', 'media_root')
 
 from ecommerce.aws.conf import *
 
