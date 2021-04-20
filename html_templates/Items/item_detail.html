@@ -14,11 +14,12 @@
 
   <div style = "position:relative; left:90px;" class='col-12 col-md-6'>
 
-    {% include 'cart/updatecart.html' with item=object cart=cart %}
       {% if is_owner %}
         <form action="{% url 'items:delete_item' item_id=item.id %}">
             <button type="submit" style="position:center; color:white" class="btn btn-primary">Remove</button>
         </form>
+      {% else %}
+          {% include 'cart/updatecart.html' with item=object cart=cart %}
       {% endif %}
 
     </div>
