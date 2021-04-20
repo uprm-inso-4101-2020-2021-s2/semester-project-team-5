@@ -1,3 +1,8 @@
 # created by virtualenv automatically
 bin/
 lib/
+.idea
+*.pyc
+*.xml
+*/migrations
+ .idea/workspace.xml

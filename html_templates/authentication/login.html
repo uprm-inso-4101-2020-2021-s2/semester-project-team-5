@@ -2,8 +2,9 @@
 
 {% block content %}
 <form method='POST'> {% csrf_token %}
-    {% if next %}
-    <input type='hidden' name='next' value='{{next}}' />
+    {% if error %}
+        <p>{{error}}</p>
+        <br>
     {% endif %}
     {{ form }}
     <br>
