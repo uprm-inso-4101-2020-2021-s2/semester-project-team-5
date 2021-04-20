@@ -1,3 +1,6 @@
 # created by virtualenv automatically
 bin/
 lib/
+.idea/vcs.xml
+.idea/inspectionProfiles/
+.idea/workspace.xml
