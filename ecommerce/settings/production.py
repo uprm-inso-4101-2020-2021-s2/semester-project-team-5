@@ -17,7 +17,7 @@ import dj_database_url
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
-DIRNAME = os.path.abspath(os.path.dirname(__file__))
+
 
 
 # Quick-start development settings - unsuitable for production
@@ -69,7 +69,8 @@ ROOT_URLCONF = 'ecommerce.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(DIRNAME, 'html_templates')],
+        'DIRS': [os.path.join(BASE_DIR, 'html_templates'),
+                 os.path.join(BASE_DIR, 'html_templates/Items')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -173,4 +174,5 @@ CSRF_COOKIE_SECURE              = True
 SECURE_HSTS_INCLUDE_SUBDOMAINS  = True
 SECURE_HSTS_SECONDS             = 1000000
 SECURE_FRAME_DENY               = True
+
 
