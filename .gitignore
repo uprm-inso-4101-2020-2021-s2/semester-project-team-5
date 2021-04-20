@@ -1,6 +1,3 @@
 # created by virtualenv automatically
 bin/
-.idea/misc.xml
-bin/
 lib/
-pyvenv.cfg
