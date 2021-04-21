@@ -2,7 +2,7 @@
 {% load quantity_tag %}
 
 {% block content %}
-<h1 class="mb-5">{{title}}</h1>
+    <h1 class="mb-5" style="margin-left: 50px">{{title}}</h1>
 {% if order_list.exists %}
 <table class="table table-dark table-striped">
   <thead>
@@ -24,6 +24,6 @@
   </tbody>
 </table>
 {% else %}
-<H2>No orders</H2>
+    <h1 class="mb-5" style="margin-left: 50px">No orders</h1>
 {% endif %}
 {% endblock %}
