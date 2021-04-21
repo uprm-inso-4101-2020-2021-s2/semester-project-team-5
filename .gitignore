@@ -1,8 +1,8 @@
 # created by virtualenv automatically
 bin/
 lib/
+.idea/vcs.xml
+.idea/inspectionProfiles/
+.idea/workspace.xml
 .idea
-*.pyc
-*.xml
-*/migrations
- .idea/workspace.xml
+
