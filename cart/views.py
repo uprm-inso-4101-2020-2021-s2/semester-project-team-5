@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.views.decorators.http import require_http_methods
-
+from django.http import HttpResponse
 from items.models import Item
 from .models import Cart, CartItem
 
@@ -94,17 +94,15 @@ def checkout_home(request):
         cart.checkout = True
         cart.updated = datetime.datetime.now()
         cart.save()
-
         new_cart = Cart(user_id=request.user.pk)
         new_cart.save()
         request.session['cart_id'] = new_cart.pk
-        return redirect('cart:cart_home')
+        return HttpResponse(status=200)
 
     cart = Cart.objects.get(pk=request.session['cart_id'])
     context = {
         'cart': cart,
         'title': 'Checkout',
-        'update_url': reverse('cart:checkout'),
         'checkout': True
     }
     return render(request, "cart/checkout.html", context)
@@ -128,3 +126,25 @@ def orders_details(request, cart_id):
         'cart': order,
     }
     return render(request, "cart/main.html", context)
+
+
+@require_http_methods(['GET'])
+@login_required(login_url='/users/login/')
+def sells_activity(request):
+    context = {}
+    items = []
+    carts_ids = Cart.objects.filter(checkout=True, cart_cart__item__owner_id=request.user.pk).values_list('pk', flat=True)
+    cart = CartItem.objects.filter(cart_id__in=carts_ids, item__owner_id=request.user.pk)
+    for cart_items in cart.all():
+        items.append((
+            cart_items.item.images.first().source.url,
+            cart_items.item.name,
+            cart_items.quantity,
+            cart_items.cart.user,
+            cart_items.cart.user.email,
+            cart_items.cart.user.phone,
+            cart_items.cart.user.locations.last(),
+        ))
+
+    context.update({'items': items, 'title': 'Orders List'})
+    return render(request, 'cart/sales_list.html', context=context)

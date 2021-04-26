@@ -66,8 +66,13 @@
          {% endif %}
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{{cart_home}}"> {% if request.session.cart_total %} {{request.session.cart_total}}  {% else %} Empty {% endif %} <i class="fa fa-shopping-cart"></i> </a>
+          <a class="nav-link" href="{{cart_home}}"> {% if request.session.cart_total %} {{request.session.cart_total}}  {% else %} 0 {% endif %} <i class="fa fa-shopping-cart"></i> </a>
         </li>
+       {% if request.user.is_authenticated %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'cart:sells_activity' %}"> <i class="fas fa-bell"></i> </a>
+            </li>
+      {% endif %}
       </ul>
       {% include 'Items/search-form.html'%}
     </div>
